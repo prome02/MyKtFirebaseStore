@@ -20,7 +20,14 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import kotlin.io.println as println1
 
-
+data class City(
+    val name: String? = null,
+    val state: String? = null,
+    val country: String? = null,
+    val isCapital: Boolean? = null,
+    val population: Long? = null,
+    val regions: List<String>? = null
+)
 class MainActivity : AppCompatActivity() {
     val TAG : String ="err"
     val RC_SIGN_IN : Int =2
@@ -185,6 +192,45 @@ class MainActivity : AppCompatActivity() {
 
         val tv: TextView =findViewById(R.id.txtResult)
         tv.text= "write data ok"
+    }
+
+    fun onClickGetDoc(v: View){
+        val db = FirebaseFirestore.getInstance()
+        val docRef = db.collection("cities").document("SF")
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val tv: TextView =findViewById(R.id.txtResult)
+                    val res: String="DocumentSnapshot data: ${document.data}"
+                    tv.text= res
+                    Log.d(TAG, res)
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+    }
+
+    fun onClickGetManyDoc(v: View){
+        val db = FirebaseFirestore.getInstance()
+        db.collection("cities")
+            .whereEqualTo("capital", true)
+            .get()
+            .addOnSuccessListener { documents ->
+                var res: String=" "
+                for (document in documents) {
+                    res+=" + ${document.id} => ${document.data}"
+                    Log.d(TAG, "${document.id} => ${document.data}")
+                }
+                val tv: TextView =findViewById(R.id.txtResult)
+                tv.text= res
+                Log.d(TAG, res)
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting documents: ", exception)
+            }
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
