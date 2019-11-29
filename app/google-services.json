@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "547689725956",
+    "firebase_url": "https://myktapp-f93c6.firebaseio.com",
+    "project_id": "myktapp-f93c6",
+    "storage_bucket": "myktapp-f93c6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547689725956:android:2649d832adbdee6793f551",
+        "android_client_info": {
+          "package_name": "com.example.myktfirebasestore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "547689725956-8of5l2kosq4vl3k0aap9qh4a3npc6u2j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPJN0pszuJNU9GEKebDyoTAUltMkwxYZc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "547689725956-8of5l2kosq4vl3k0aap9qh4a3npc6u2j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
