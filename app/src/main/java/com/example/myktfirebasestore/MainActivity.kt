@@ -1,24 +1,32 @@
 package com.example.myktfirebasestore
 
+//import com.firebase.ui.auth.AuthUI
+//import com.firebase.ui.auth.IdpResponse
+//import com.google.firebase.auth.FirebaseAuth
+
+import android.R.attr.apiKey
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.IdpResponse
-//import com.firebase.ui.auth.AuthUI
-//import com.firebase.ui.auth.IdpResponse
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.AutocompleteActivity
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
-//import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
-import kotlin.io.println as println1
+import kotlinx.android.synthetic.main.activity_main.*
+
 
 data class City(
     val name: String? = null,
@@ -31,6 +39,7 @@ data class City(
 class MainActivity : AppCompatActivity() {
     val TAG : String ="err"
     val RC_SIGN_IN : Int =2
+    val AUTOCOMPLETE_REQUEST_CODE: Int = 152
     val remoteConfig = FirebaseRemoteConfig.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +57,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         FirebaseApp.initializeApp(this)
+
+        // Initialize the SDK
+        Places.initialize(applicationContext, "AIzaSyCFA_hiLEUXb8kXfzisDM7XOt9CmkNMCDE")
+
+        // Create a new Places client instance
+        val placesClient: PlacesClient = Places.createClient(this)
 
     }
 
@@ -200,9 +215,9 @@ class MainActivity : AppCompatActivity() {
         docRef.get()
             .addOnSuccessListener { document ->
                 if (document != null) {
-                    val tv: TextView =findViewById(R.id.txtResult)
+
                     val res: String="DocumentSnapshot data: ${document.data}"
-                    tv.text= res
+                    txtResult.text= res
                     Log.d(TAG, res)
                 } else {
                     Log.d(TAG, "No such document")
@@ -232,9 +247,66 @@ class MainActivity : AppCompatActivity() {
                 Log.w(TAG, "Error getting documents: ", exception)
             }
     }
+
+//    fun setToResultView(str :String){
+//        val tv: TextView =findViewById(R.id.txtResult)
+//        tv.text=str
+//    }
+    fun onClickAutocompleteCites(v: View){
+
+
+// Set the fields to specify which types of place data to
+// return after the user has made a selection.
+    val fields = listOf(Place.Field.ID, Place.Field.NAME)
+
+    val intent =Autocomplete.IntentBuilder( AutocompleteActivityMode.FULLSCREEN, fields).build(this)
+
+    startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+}
+    fun onClickCompoundQry(v: View){
+        val db = FirebaseFirestore.getInstance()
+        val citiesRef = db.collection("cities")
+        citiesRef.whereEqualTo("state","CO").whereEqualTo("name", "Denver")
+            .get().addOnSuccessListener { docs->
+                val si =docs.size()
+                Log.d(TAG,"found $si doc")
+                var res : String=""
+                for(doc in docs){
+                    val str =doc.data["state"]
+                    res+= "+ $str"
+                }
+                txtResult.text=res
+            }
+            .addOnFailureListener { excep ->
+                Log.w(TAG, "err", excep)
+            }
+    }
+
+    fun getFFI(): FirebaseFirestore= FirebaseFirestore.getInstance()
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        when(requestCode){
+            AUTOCOMPLETE_REQUEST_CODE -> when(resultCode){
+                Activity.RESULT_OK -> {
+                    if(data != null) {
+                        val place = Autocomplete.getPlaceFromIntent(data)
+                        val res="place ${place.name} , ${place.id}"
+                        Log.d(TAG, res)
+                        txtResult.text=res
+                    }else {
+                        txtResult.text=" Autocomplete err"
+                    }
+                }
+                AutocompleteActivity.RESULT_ERROR->{
+
+                    txtResult.text=" AutocompleteActivity.RESULT_ERROR"
+                }
+                else ->{
+                    txtResult.text=" unknown err"
+                }
+            }
+        }
         if (requestCode == RC_SIGN_IN) {
 //            val response = IdpResponse.fromResultIntent(data)
 
@@ -242,11 +314,22 @@ class MainActivity : AppCompatActivity() {
                 // Successfully signed in
                 val user = FirebaseAuth.getInstance().currentUser
 
+
                 val tv : TextView=this.findViewById(R.id.txtResult)
                 val email : String?= user?.email ?: null
-                if(email != null) tv.setText( "email : $email")
-                else tv.setText("email denied")
+                if(email != null) txtResult.text= "email : $email"
+                else txtResult.text="email denied"
 
+                val db=getFFI()
+                db.collection("users")
+                    .whereEqualTo("email", email)
+                    .get()
+                    .addOnSuccessListener {result ->
+
+                    }
+                    .addOnFailureListener { exception ->
+
+                    }
             } else {
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
