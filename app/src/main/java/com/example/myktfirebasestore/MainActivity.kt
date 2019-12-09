@@ -9,14 +9,13 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.content.DialogInterface.BUTTON_NEGATIVE
+import android.content.DialogInterface.BUTTON_POSITIVE
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.ListAdapter
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.google.android.libraries.places.api.Places
@@ -230,12 +229,26 @@ class ADA: ArrayAdapter<String>{
         val adap=ADA( this, R.layout.lyt_dlg_itemview, R.id.textViewxxx)
 
         val dlg = AlertDialog.Builder(this)
-//            dlg.setTitle(resources.getString(R.string.str_select_city))
-            dlg.setAdapter(adap, DialogInterface.OnClickListener(){ a1, a2 ->
-                fun onClick( dlg:DialogInterface,  which:Int){
 
+
+        val listener = object :DialogInterface.OnClickListener {
+            override fun onClick(p0: DialogInterface?, p1: Int) {
+                when( p1){
+                    BUTTON_NEGATIVE -> {
+                        txtResult.text="you click cancel"
+                        p0?.cancel()
+                    }
+                    else ->{
+
+                        txtResult.text="you select item: ${adap.getItem(p1)}"
+                    }
                 }
-            })
+            }
+        }
+
+
+            dlg.setAdapter(adap, listener)
+        dlg.setNegativeButton(android.R.string.cancel, listener)
         dlg.show()
 
     }
