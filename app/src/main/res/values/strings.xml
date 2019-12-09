@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">MyKtFirebaseStore</string>
-    <string name="str_log_tag">tagInfo</string>
+    <string name="str_log_tag" translatable="false">tagInfo</string>
 
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">YOUR_APP_ID</string>
@@ -8,6 +8,11 @@
     <!-- Twitter consumer key and secret -->
     <string name="twitter_consumer_key" translatable="false">YOUR_CONSUMER_KEY</string>
     <string name="twitter_consumer_secret" translatable="false">YOUR_CONSUMER_SECRET</string>
-    <string name="str_rconfig_start_page">start_page</string>
 
+    <string-array name="test_array">
+        <item>test 1</item>
+        <item>test 2</item>
+    </string-array>
+    <string name="str_select_city">select a city</string>
+    <string name="str_cities_array">cities_en</string>
 </resources>

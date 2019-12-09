@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyKtFirebaseStore</string>
+    <string name="str_cities_array">cities_zh</string>
+    <string name="str_select_city">選擇城市</string>
+</resources>

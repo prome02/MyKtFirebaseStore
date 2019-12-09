@@ -6,11 +6,16 @@ package com.example.myktfirebasestore
 
 import android.R.attr.apiKey
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.ListAdapter
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
@@ -63,6 +68,7 @@ class MainActivity : AppCompatActivity() {
 
         // Create a new Places client instance
         val placesClient: PlacesClient = Places.createClient(this)
+
 
     }
 
@@ -146,11 +152,93 @@ class MainActivity : AppCompatActivity() {
 
     fun onClickGetString(v: View) {
 
-        val test : String = remoteConfig.getString(resources.getString(R.string.str_rconfig_start_page))
-        Log.d(TAG, "onClickGetString = $test")
+//        val test : String = remoteConfig.getString(resources.getString(R.string.str_rconfig_start_page))
+//        Log.d(TAG, "onClickGetString = $test")
 
     }
 
+    fun onClickWriteCitiesData(v: View){
+        val db=getFFI()
+        val cities = db.collection("cities")
+        val citiesAry=resources.getStringArray(R.array.cities_en)
+
+
+//        val citiesLst=citiesAry.toList()
+        val data= hashMapOf("cities_en" to citiesAry.toList())
+
+
+        cities.document("cities_en").set(data)
+            .addOnSuccessListener {doc ->
+            val str="cities_zh write into ok"
+            Log.d(TAG, str)
+            txtResult.text=str
+        }.addOnFailureListener {ex->
+            txtResult.text= ex.message
+            Log.d(TAG, ex.message)
+        }
+    }
+    fun onClickDlg(v: View){
+class ADA: ArrayAdapter<String>{
+    constructor(context: Context, resource: Int) : super(context, resource)
+    constructor(context: Context, resource: Int, textViewResourceId: Int) : super(
+        context,
+        resource,
+        textViewResourceId
+    )
+
+    constructor(context: Context, resource: Int, objects: Array<out String>) : super(
+        context,
+        resource,
+        objects
+    )
+
+    constructor(
+        context: Context,
+        resource: Int,
+        textViewResourceId: Int,
+        objects: Array<out String>
+    ) : super(context, resource, textViewResourceId, objects)
+
+    constructor(context: Context, resource: Int, objects: MutableList<String>) : super(
+        context,
+        resource,
+        objects
+    )
+
+    constructor(
+        context: Context,
+        resource: Int,
+        textViewResourceId: Int,
+        objects: MutableList<String>
+    ) : super(context, resource, textViewResourceId, objects)
+
+    val aryCities= resources.getStringArray(R.array.cities_zh)
+
+    override fun getItem(position: Int): String? {
+
+        return aryCities[position]
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getCount(): Int {
+        return aryCities.count()
+    }
+}
+        val adap=ADA( this, R.layout.lyt_dlg_itemview, R.id.textViewxxx)
+
+        val dlg = AlertDialog.Builder(this)
+//            dlg.setTitle(resources.getString(R.string.str_select_city))
+            dlg.setAdapter(adap, DialogInterface.OnClickListener(){ a1, a2 ->
+                fun onClick( dlg:DialogInterface,  which:Int){
+
+                }
+            })
+        dlg.show()
+
+    }
     fun onClickWriteData(v: View){
         val db = FirebaseFirestore.getInstance()
         val cities = db.collection("cities")
@@ -282,6 +370,10 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
+    fun onClickGetStrAry(v: View){
+        val strAry= resources.getStringArray(R.array.cities_zh)
+        for (str in strAry) txtResult.append(str)
+    }
     fun getFFI(): FirebaseFirestore= FirebaseFirestore.getInstance()
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -338,4 +430,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
 }

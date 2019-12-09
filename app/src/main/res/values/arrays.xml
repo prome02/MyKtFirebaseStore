@@ -1,6 +1,480 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="cities">
+    <string-array name="cities_zh">
+        <item>三蘭港</item>
+        <item>上海</item>
+        <item>大阪</item>
+        <item>大連</item>
+        <item>丹佛</item>
+        <item>天津</item>
+        <item>太原</item>
+        <item>巴庫</item>
+        <item>巴拿馬城</item>
+        <item>巴塞隆那</item>
+        <item>巴爾的摩</item>
+        <item>巴黎</item>
+        <item>日內瓦</item>
+        <item>加爾各答</item>
+        <item>北京</item>
+        <item>卡加利</item>
+        <item>卡拉卡斯</item>
+        <item>卡薩布蘭加</item>
+        <item>可倫坡</item>
+        <item>史高比耶</item>
+        <item>尼柯西亞</item>
+        <item>布加勒斯特</item>
+        <item>布里斯本</item>
+        <item>布里斯托</item>
+        <item>布宜諾斯艾利斯</item>
+        <item>布拉格</item>
+        <item>布拉提斯拉瓦</item>
+        <item>布達佩斯</item>
+        <item>布魯塞爾</item>
+        <item>弗羅茨瓦夫</item>
+        <item>札格瑞布</item>
+        <item>瓜亞基爾</item>
+        <item>瓜達拉哈拉</item>
+        <item>瓦倫西亞</item>
+        <item>仰光</item>
+        <item>伊茲密爾</item>
+        <item>伊斯坦堡</item>
+        <item>伊斯蘭馬巴德</item>
+        <item>休斯頓</item>
+        <item>合肥</item>
+        <item>吉隆坡</item>
+        <item>吉達</item>
+        <item>地拉那</item>
+        <item>多倫多</item>
+        <item>安卡拉</item>
+        <item>安特衛普</item>
+        <item>安曼</item>
+        <item>成都</item>
+        <item>艾哈邁達巴德</item>
+        <item>西安</item>
+        <item>西雅圖</item>
+        <item>伯明罕</item>
+        <item>伯斯</item>
+        <item>佛羅倫斯</item>
+        <item>克里夫蘭</item>
+        <item>克雷塔羅</item>
+        <item>利馬</item>
+        <item>利雅德</item>
+        <item>杜林</item>
+        <item>杜阿拉</item>
+        <item>杜哈</item>
+        <item>杜拜</item>
+        <item>杜塞道夫</item>
+        <item>沙加緬度</item>
+        <item>貝爾法斯特</item>
+        <item>貝爾格勒</item>
+        <item>貝魯特</item>
+        <item>邦加羅爾</item>
+        <item>里加</item>
+        <item>里昂</item>
+        <item>里約熱內盧</item>
+        <item>里茲</item>
+        <item>里斯本</item>
+        <item>亞松森</item>
+        <item>亞特蘭大</item>
+        <item>坦帕</item>
+        <item>奈洛比</item>
+        <item>孟買</item>
+        <item>底特律</item>
+        <item>拉巴斯</item>
+        <item>拉合爾</item>
+        <item>拉哥斯</item>
+        <item>拉斯維加斯</item>
+        <item>昆明</item>
+        <item>明尼亞波利斯</item>
+        <item>明斯克</item>
+        <item>杭州</item>
+        <item>東京</item>
+        <item>武漢</item>
+        <item>河內</item>
+        <item>法蘭克福</item>
+        <item>泗水</item>
+        <item>波士頓</item>
+        <item>波哥大</item>
+        <item>波茲南</item>
+        <item>波爾圖</item>
+        <item>芝加哥</item>
+        <item>金邊</item>
+        <item>長沙</item>
+        <item>阿布加</item>
+        <item>阿布達比</item>
+        <item>阿必尚</item>
+        <item>阿克拉</item>
+        <item>阿拉木圖</item>
+        <item>阿雷格里港</item>
+        <item>阿爾及爾</item>
+        <item>阿德雷德</item>
+        <item>青島</item>
+        <item>南安普敦</item>
+        <item>南京</item>
+        <item>南特</item>
+        <item>哈拉雷</item>
+        <item>哈特福德</item>
+        <item>威靈頓</item>
+        <item>柏林</item>
+        <item>洛杉磯</item>
+        <item>洛桑</item>
+        <item>科威特城</item>
+        <item>科隆</item>
+        <item>突尼西亞城</item>
+        <item>約翰尼斯堡</item>
+        <item>美景市</item>
+        <item>重慶</item>
+        <item>首爾</item>
+        <item>哥本哈根</item>
+        <item>夏洛特</item>
+        <item>庫里奇巴</item>
+        <item>拿索</item>
+        <item>格拉斯哥</item>
+        <item>浦那</item>
+        <item>海德拉巴</item>
+        <item>特拉維夫</item>
+        <item>納什維爾</item>
+        <item>納閩</item>
+        <item>紐約</item>
+        <item>索非亞</item>
+        <item>馬尼拉</item>
+        <item>馬納瓜</item>
+        <item>馬斯喀特</item>
+        <item>馬德里</item>
+        <item>高雄</item>
+        <item>基多</item>
+        <item>基輔</item>
+        <item>密爾瓦基</item>
+        <item>康培拉</item>
+        <item>曼谷</item>
+        <item>曼徹斯特</item>
+        <item>深圳</item>
+        <item>清奈</item>
+        <item>畢爾包</item>
+        <item>莫斯科</item>
+        <item>都柏林</item>
+        <item>雪梨</item>
+        <item>鹿特丹</item>
+        <item>麥納瑪</item>
+        <item>麥德林</item>
+        <item>喀拉蚩</item>
+        <item>喬治敦</item>
+        <item>堪薩斯城</item>
+        <item>提比里斯</item>
+        <item>斯德哥爾摩</item>
+        <item>渥太華</item>
+        <item>華沙</item>
+        <item>華盛頓</item>
+        <item>費城</item>
+        <item>開普敦</item>
+        <item>開羅</item>
+        <item>雅加達</item>
+        <item>雅典</item>
+        <item>塔林</item>
+        <item>奧克蘭</item>
+        <item>奧斯汀</item>
+        <item>奧蘭多</item>
+        <item>廈門</item>
+        <item>愛丁堡</item>
+        <item>新山</item>
+        <item>新加坡</item>
+        <item>新德里</item>
+        <item>溫哥華</item>
+        <item>聖地牙哥</item>
+        <item>聖地牙哥</item>
+        <item>聖多明哥</item>
+        <item>聖安東尼奧</item>
+        <item>聖彼得堡</item>
+        <item>聖保羅</item>
+        <item>聖胡安</item>
+        <item>聖荷西</item>
+        <item>聖荷西</item>
+        <item>聖薩爾瓦多</item>
+        <item>路沙卡</item>
+        <item>路易士港</item>
+        <item>達卡</item>
+        <item>達卡</item>
+        <item>達拉斯</item>
+        <item>嘉柏隆里</item>
+        <item>寧波</item>
+        <item>漢堡</item>
+        <item>福州</item>
+        <item>維也納</item>
+        <item>維爾紐斯</item>
+        <item>臺北</item>
+        <item>蒙特婁</item>
+        <item>蒙特雷</item>
+        <item>蒙特維多</item>
+        <item>赫爾辛基</item>
+        <item>鳳凰城</item>
+        <item>廣州</item>
+        <item>德古西加巴</item>
+        <item>德爾班</item>
+        <item>慕尼黑</item>
+        <item>鄭州</item>
+        <item>魯安達</item>
+        <item>墨西哥城</item>
+        <item>墨爾本</item>
+        <item>盧比安納</item>
+        <item>盧森堡市</item>
+        <item>濟南</item>
+        <item>邁阿密</item>
+        <item>檳城（喬治市）</item>
+        <item>瀋陽</item>
+        <item>舊金山</item>
+        <item>羅利</item>
+        <item>羅馬</item>
+        <item>蘇州</item>
+        <item>蘇黎世</item>
+        <item>瓜地馬拉城</item>
+        <item>米蘭</item>
+        <item>艾德蒙頓</item>
+        <item>阿姆斯特丹</item>
+        <item>胡志明市</item>
+        <item>香港</item>
+        <item>倫敦</item>
+        <item>馬布多</item>
+        <item>斯圖加特</item>
+        <item>奧斯陸</item>
+        <item>聖路易</item>
+    </string-array>
 
+    <string-array name="cities_en">
+        <item>Abidjan</item>
+        <item>Abu Dhabi</item>
+        <item>Abuja</item>
+        <item>Accra</item>
+        <item>Adelaide</item>
+        <item>Ahmedabad</item>
+        <item>Algiers</item>
+        <item>Alma-Ata</item>
+        <item>Amman</item>
+        <item>Ankara</item>
+        <item>Antwerp</item>
+        <item>Asuncion</item>
+        <item>Athens</item>
+        <item>Atlanta</item>
+        <item>Auckland</item>
+        <item>Austin</item>
+        <item>Baku</item>
+        <item>Baltimore</item>
+        <item>Bangalore</item>
+        <item>Bangkok</item>
+        <item>Beijing</item>
+        <item>Beirut</item>
+        <item>Belfast</item>
+        <item>Belgrade</item>
+        <item>Belo</item>
+        <item>Berlin</item>
+        <item>Bilbao</item>
+        <item>Birmingham</item>
+        <item>Bogota</item>
+        <item>Boston</item>
+        <item>Bratislava</item>
+        <item>Brisbane</item>
+        <item>Bristol</item>
+        <item>Brussels</item>
+        <item>Bucharest</item>
+        <item>Budapest</item>
+        <item>Buenos Aires</item>
+        <item>Cairo</item>
+        <item>Calcutta</item>
+        <item>Calgary</item>
+        <item>Canton</item>
+        <item>Capetown</item>
+        <item>Caracas</item>
+        <item>Casablanca</item>
+        <item>Changsha</item>
+        <item>Charlotte</item>
+        <item>Chengdu</item>
+        <item>Chennai</item>
+        <item>Chicago</item>
+        <item>Chongqing</item>
+        <item>Cleveland</item>
+        <item>Cologne</item>
+        <item>Colombo</item>
+        <item>Copenhagen</item>
+        <item>Curitiba</item>
+        <item>Dalian</item>
+        <item>Dallas</item>
+        <item>Dar es Salaam</item>
+        <item>Denver</item>
+        <item>Detroit</item>
+        <item>Dhaka</item>
+        <item>Dhaka</item>
+        <item>Doha</item>
+        <item>Douala</item>
+        <item>Dubai</item>
+        <item>Dublin</item>
+        <item>Durban</item>
+        <item>Dusseldorf</item>
+        <item>Edinburgh</item>
+        <item>Florence</item>
+        <item>Frankfurt</item>
+        <item>Fuzhou</item>
+        <item>Gaborone</item>
+        <item>Geneva</item>
+        <item>Georgetown</item>
+        <item>Glasgow</item>
+        <item>Guadalajara</item>
+        <item>Guayaquil</item>
+        <item>Hamburger</item>
+        <item>Hangzhou</item>
+        <item>Hanoi</item>
+        <item>Harare</item>
+        <item>Hartford</item>
+        <item>Hefei</item>
+        <item>Helsinki</item>
+        <item>Houston</item>
+        <item>Hyderabad</item>
+        <item>Islamabad</item>
+        <item>Istanbul</item>
+        <item>Izmir</item>
+        <item>Jakarta</item>
+        <item>Jeddah</item>
+        <item>Jinan</item>
+        <item>Johannesburg</item>
+        <item>Johor</item>
+        <item>Kangpei La</item>
+        <item>Kansas City</item>
+        <item>Kaohsiung</item>
+        <item>Karachi</item>
+        <item>Kiev</item>
+        <item>Kuala Lumpur</item>
+        <item>Kunming</item>
+        <item>Kuwait City</item>
+        <item>La Paz</item>
+        <item>Labuan</item>
+        <item>Lagos</item>
+        <item>Lahore</item>
+        <item>Las Vegas</item>
+        <item>Lausanne</item>
+        <item>Leeds</item>
+        <item>Lima</item>
+        <item>Lisbon</item>
+        <item>Ljubljana</item>
+        <item>Los Angeles</item>
+        <item>Lusaka</item>
+        <item>Luxembourg City</item>
+        <item>Lyon</item>
+        <item>Madrid</item>
+        <item>Managua</item>
+        <item>Manama</item>
+        <item>Manchester</item>
+        <item>Manila</item>
+        <item>Medellin</item>
+        <item>Melbourne</item>
+        <item>Mexico City</item>
+        <item>Miami</item>
+        <item>Milwaukee</item>
+        <item>Minneapolis</item>
+        <item>Minsk</item>
+        <item>Monterrey</item>
+        <item>Montevideo</item>
+        <item>Montreal</item>
+        <item>Moscow</item>
+        <item>Mumbai</item>
+        <item>Munich</item>
+        <item>Muscat</item>
+        <item>Nairobi</item>
+        <item>Nanjing</item>
+        <item>Nantes</item>
+        <item>Nashville</item>
+        <item>Nassau</item>
+        <item>New Delhi</item>
+        <item>new York</item>
+        <item>Nicodemo West</item>
+        <item>Ningbo</item>
+        <item>Orlando</item>
+        <item>Osaka</item>
+        <item>Ottawa</item>
+        <item>Panama City</item>
+        <item>Paris</item>
+        <item>Penang (George Town)</item>
+        <item>Perth</item>
+        <item>Philadelphia</item>
+        <item>Phnom Penh</item>
+        <item>Phoenix city</item>
+        <item>Port Louis</item>
+        <item>Porto Alegre</item>
+        <item>Porto</item>
+        <item>Poznan</item>
+        <item>Prague</item>
+        <item>Pune</item>
+        <item>Qingdao</item>
+        <item>Queretaro</item>
+        <item>Quito</item>
+        <item>Raleigh</item>
+        <item>Riga</item>
+        <item>Rio de Janeiro</item>
+        <item>Riyadh</item>
+        <item>Rome</item>
+        <item>Rotterdam</item>
+        <item>Ruanda</item>
+        <item>Sacramento</item>
+        <item>San Antonio</item>
+        <item>San Diego</item>
+        <item>San Diego</item>
+        <item>San Francisco</item>
+        <item>San Jose</item>
+        <item>San Jose</item>
+        <item>San Juan</item>
+        <item>San Salvador</item>
+        <item>Santo Domingo</item>
+        <item>Sao Paulo</item>
+        <item>Seattle</item>
+        <item>Seoul</item>
+        <item>Shanghai</item>
+        <item>Shenyang</item>
+        <item>Shenzhen</item>
+        <item>Singapore</item>
+        <item>Skopje</item>
+        <item>Sofia</item>
+        <item>Southampton</item>
+        <item>St. Petersburg</item>
+        <item>Stockholm</item>
+        <item>Surabaya</item>
+        <item>Suzhou</item>
+        <item>Sydney</item>
+        <item>Taipei</item>
+        <item>Taiyuan</item>
+        <item>Tallinn</item>
+        <item>Tampa</item>
+        <item>Tbilisi</item>
+        <item>Tegucigalpa</item>
+        <item>Tel Aviv</item>
+        <item>The Barcelona</item>
+        <item>Tianjin</item>
+        <item>Tirana</item>
+        <item>Tokyo</item>
+        <item>Toronto</item>
+        <item>Tunisia City</item>
+        <item>Turin</item>
+        <item>Valencia</item>
+        <item>Vancouver</item>
+        <item>Vienna</item>
+        <item>Vilnius</item>
+        <item>Warsaw</item>
+        <item>Washington</item>
+        <item>Wellington</item>
+        <item>Wroclaw</item>
+        <item>Wuhan</item>
+        <item>"Xi'an"</item>
+        <item>Xiamen</item>
+        <item>Yangon</item>
+        <item>Zagreb</item>
+        <item>Zhengzhou</item>
+        <item>Zurich</item>
+        <item>Amsterdam</item>
+        <item>Edmonton</item>
+        <item>Guatemala City</item>
+        <item>Ho Chi Minh City</item>
+        <item>Hong Kong</item>
+        <item>London</item>
+        <item>Maputo</item>
+        <item>Milan</item>
+        <item>Oslo</item>
+        <item>St. Louis</item>
+        <item>Stuttgart</item>
     </string-array>
 </resources>
