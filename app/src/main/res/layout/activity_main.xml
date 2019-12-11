@@ -144,7 +144,7 @@
         android:id="@+id/button9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="52dp"
         android:layout_marginTop="16dp"
         android:onClick="onClickWriteCitiesData"
         android:text="write cities data"
@@ -161,4 +161,14 @@
         android:text="DLG"
         app:layout_constraintStart_toEndOf="@+id/button9"
         app:layout_constraintTop_toBottomOf="@+id/button7" />
+
+    <fragment
+        android:id="@+id/frag_gen_sel"
+        android:name="com.example.myktfirebasestore.GenSelectFrag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button9" />
 </androidx.constraintlayout.widget.ConstraintLayout>

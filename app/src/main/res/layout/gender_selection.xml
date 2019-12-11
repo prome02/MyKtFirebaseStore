@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ToggleButton
+        android:background="@drawable/check"
+        android:id="@+id/tbtn_gen_sel_male"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOn="@string/str_gen_sel_male"
+        android:textOff="@string/str_gen_sel_male"
+        android:text="@string/str_gen_sel_male" />
+
+    <ToggleButton
+        android:background="@drawable/check"
+        android:id="@+id/tbtn_gen_sel_female"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOff="@string/str_gen_sel_female"
+        android:textOn="@string/str_gen_sel_female"
+        android:text="@string/str_gen_sel_female" />
+    <ToggleButton
+        android:background="@drawable/check"
+        android:id="@+id/tbtn_gen_sel_gay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOff="@string/str_gen_sel_gay"
+        android:textOn="@string/str_gen_sel_gay"
+        android:text="@string/str_gen_sel_gay" />
+    <ToggleButton
+        android:background="@drawable/check"
+        android:id="@+id/tbtn_gen_sel_lesbian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOff="@string/str_gen_sel_lesbian"
+        android:textOn="@string/str_gen_sel_lesbian"
+        android:text="@string/str_gen_sel_lesbian" />
+    <ToggleButton
+        android:background="@drawable/check"
+        android:id="@+id/tbtn_gen_sel_tom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOn="@string/str_gen_sel_tom"
+        android:textOff="@string/str_gen_sel_tom"
+        android:text="@string/str_gen_sel_tom" />
+    <ToggleButton
+        android:background="@drawable/check"
+        android:id="@+id/tbtn_gen_sel_queer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOff="@string/str_gen_sel_queer"
+        android:textOn="@string/str_gen_sel_queer"
+        android:text="@string/str_gen_sel_queer" />
+    <ToggleButton
+        android:background="@drawable/check"
+        android:id="@+id/tbtn_gen_sel_bi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOn="@string/str_gen_sel_bisex"
+        android:textOff="@string/str_gen_sel_bisex"
+        android:text="@string/str_gen_sel_bisex" />
+    <ToggleButton
+        android:background="@drawable/check"
+        android:id="@+id/tbtn_gen_sel_other"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOff="@string/str_gen_sel_other"
+        android:textOn="@string/str_gen_sel_other"
+        android:text="@string/str_gen_sel_other" />
+</LinearLayout>

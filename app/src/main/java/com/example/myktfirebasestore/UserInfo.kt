@@ -9,4 +9,4 @@ class UserInfo(var name:String,
                var bornYear: Date,
                var gen: Gender)
 
-//class TravelInfo(var city)
+data class TravelInfo(var cityFrom:String, var cityTo:String, var willGo:Date, var willCome:Date, var info:String)

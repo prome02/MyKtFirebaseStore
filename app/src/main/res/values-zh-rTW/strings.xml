@@ -3,4 +3,7 @@
     <string name="app_name">MyKtFirebaseStore</string>
     <string name="str_cities_array">cities_zh</string>
     <string name="str_select_city">選擇城市</string>
+    <string name="str_gen_sel_female">女</string>
+    <string name="str_gen_sel_male">男</string>
+    <string name="str_gen_sel_other">其他</string>
 </resources>
