@@ -176,6 +176,27 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, ex.message)
         }
     }
+
+    fun onClockReadFFArray(v: View){
+        val db=getFFI()
+        val str="cities_en"
+        db.collection("cities").document(str)
+            .get().addOnSuccessListener { doc->
+                val ma=doc.data as HashMap<String, List<String?>>
+                val lst= ma[str]
+                if(lst!=null){
+
+                    for(item in lst){
+
+                        if(item!=null) println(item)
+                    }
+                }
+
+            }
+            .addOnFailureListener {
+                Log.d("TAG", "msg ${it.message}; local msg:${it.localizedMessage}")
+            }
+    }
     fun onClickDlg(v: View){
 class ADA: ArrayAdapter<String>{
     constructor(context: Context, resource: Int) : super(context, resource)
@@ -247,7 +268,7 @@ class ADA: ArrayAdapter<String>{
         }
 
 
-            dlg.setAdapter(adap, listener)
+        var adapter = dlg.setAdapter(adap, listener)
         dlg.setNegativeButton(android.R.string.cancel, listener)
         dlg.show()
 
