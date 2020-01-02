@@ -5,6 +5,7 @@ package com.example.myktfirebasestore
 //import com.google.firebase.auth.FirebaseAuth
 
 import android.R.attr.apiKey
+import android.R.attr.dialogLayout
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
@@ -17,6 +18,9 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.auth.AuthUI
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
@@ -60,6 +64,7 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
+        HelpObject.showDlg(this, "test", "test")
         FirebaseApp.initializeApp(this)
 
         // Initialize the SDK
@@ -71,6 +76,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+
+
+    }
     override fun onResume() {
         super.onResume()
 
@@ -120,14 +130,16 @@ class MainActivity : AppCompatActivity() {
 
         val db = FirebaseFirestore.getInstance()
         db.collection("users")
-            .add(user)
+            .document(name)
+            .set(user)
             .addOnSuccessListener { documentReference ->
-                Log.d(tag, "DocumentSnapshot added with ID: ${documentReference.id}")
+                Log.d(tag, "DocumentSnapshot added with ID: ${documentReference}")
             }
             .addOnFailureListener { e ->
                 Log.w(tag, "Error adding document", e)
             }
     }
+
 
 
     fun ocClickAuth( v : View){
@@ -156,6 +168,26 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
+
+
+
+
+    fun onClickInitListViewData(v: View){
+        ryc.apply {
+            setHasFixedSize(true)
+            adapter=MyAda()
+            layoutManager=LinearLayoutManager(this.context)
+            itemAnimator = DefaultItemAnimator()
+            addItemDecoration(DividerItemDecoration(this.context, DividerItemDecoration.HORIZONTAL))
+
+        }
+        ryc.adapter?.notifyDataSetChanged()
+
+
+
+
+    }
     fun onClickWriteCitiesData(v: View){
         val db=getFFI()
         val cities = db.collection("cities")
