@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.DialogInterface
 import android.view.View
 import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.util.*
 
 class HelpObject(val ctx: Context, val titleMsgId:Int, val contentId:Int): View.OnClickListener {
     override fun onClick(p0: View?) {
@@ -28,6 +30,12 @@ class HelpObject(val ctx: Context, val titleMsgId:Int, val contentId:Int): View.
 //
 //        }
 
+        fun stringToDate(ct: Context, strDate: String): Date {
+            val dft = SimpleDateFormat("yyyy/mm/dd")
+            val da = dft.parse(strDate)
+            if (da == null) throw Exception()
+            else return da
+        }
         fun showDlg(ct:Context, title:String, content:String){
             AlertDialog.Builder(ct)
                 .setTitle(title)
