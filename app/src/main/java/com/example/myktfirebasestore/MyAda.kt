@@ -16,8 +16,8 @@ class MyAda:RecyclerView.Adapter<MyAda.VH>() {
     }
     class VH(v:View):RecyclerView.ViewHolder(v){
 
-        lateinit var tvXXX:TextView
-        lateinit var btnRemove:Button
+        var tvXXX: TextView
+        var btnRemove: Button
         init {
             tvXXX=v.findViewById<TextView>(R.id.textViewxxx)
             btnRemove=v.findViewById<Button>(R.id.btn_remove)

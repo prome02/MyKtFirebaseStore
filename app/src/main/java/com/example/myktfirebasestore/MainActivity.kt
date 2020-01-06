@@ -33,6 +33,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
+import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -52,6 +53,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+        setContentView(R.layout.activity_main)
+
         val configSettings = FirebaseRemoteConfigSettings.Builder()
             .setMinimumFetchIntervalInSeconds(10)
             .build()
@@ -62,9 +66,7 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "setConfigSettingsAsync not ok")
         }
 
-        setContentView(R.layout.activity_main)
-
-        HelpObject.showDlg(this, "test", "test")
+//        HelpObject.showDlg(this, "test", "test")
         FirebaseApp.initializeApp(this)
 
         // Initialize the SDK
@@ -76,6 +78,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    fun onGetGender(v: View) {
+        val gf = frag_gen_sel as GenSelectFrag
+        val sta = gf.getState()
+        Log.d(TAG, "gen=$sta")
+    }
     override fun onStart() {
         super.onStart()
 
@@ -162,9 +169,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClickGetString(v: View) {
+//        val key=resources.getString(R.string.str_rconfig_start_page)
+//        remoteConfig.getString(key)
+//        val gson=GsonBuilder()
+//        val cities=gson.create().fromJson<List<String>>(value, String::class.java)
+//
 
-//        val test : String = remoteConfig.getString(resources.getString(R.string.str_rconfig_start_page))
-//        Log.d(TAG, "onClickGetString = $test")
 
     }
 
@@ -189,24 +199,24 @@ class MainActivity : AppCompatActivity() {
 
     }
     fun onClickWriteCitiesData(v: View){
-        val db=getFFI()
-        val cities = db.collection("cities")
-        val citiesAry=resources.getStringArray(R.array.cities_en)
-
-
-//        val citiesLst=citiesAry.toList()
-        val data= hashMapOf("cities_en" to citiesAry.toList())
-
-
-        cities.document("cities_en").set(data)
-            .addOnSuccessListener {doc ->
-            val str="cities_zh write into ok"
-            Log.d(TAG, str)
-            txtResult.text=str
-        }.addOnFailureListener {ex->
-            txtResult.text= ex.message
-            Log.d(TAG, ex.message)
-        }
+//        val db=getFFI()
+//        val cities = db.collection("cities")
+//        val citiesAry=resources.getStringArray(R.array.cities_en)
+//
+//
+////        val citiesLst=citiesAry.toList()
+//        val data= hashMapOf("cities_en" to citiesAry.toList())
+//
+//
+//        cities.document("cities_en").set(data)
+//            .addOnSuccessListener {doc ->
+//            val str="cities_zh write into ok"
+//            Log.d(TAG, str)
+//            txtResult.text=str
+//        }.addOnFailureListener {ex->
+//            txtResult.text= ex.message
+//            Log.d(TAG, ex.message)
+//        }
     }
 
     fun onClockReadFFArray(v: View){
@@ -264,11 +274,12 @@ class ADA: ArrayAdapter<String>{
         objects: MutableList<String>
     ) : super(context, resource, textViewResourceId, objects)
 
-    val aryCities= resources.getStringArray(R.array.cities_zh)
+//    val aryCities= resources.getStringArray(R.array.cities_zh)
 
     override fun getItem(position: Int): String? {
 
-        return aryCities[position]
+//        return aryCities[position]
+        return "null"
     }
 
     override fun getItemId(position: Int): Long {
@@ -276,7 +287,8 @@ class ADA: ArrayAdapter<String>{
     }
 
     override fun getCount(): Int {
-        return aryCities.count()
+//        return aryCities.count()
+        return 0
     }
 }
         val adap=ADA( this, R.layout.lyt_dlg_itemview, R.id.textViewxxx)
@@ -437,8 +449,8 @@ class ADA: ArrayAdapter<String>{
     }
 
     fun onClickGetStrAry(v: View){
-        val strAry= resources.getStringArray(R.array.cities_zh)
-        for (str in strAry) txtResult.append(str)
+//        val strAry= resources.getStringArray(R.array.cities_zh)
+//        for (str in strAry) txtResult.append(str)
     }
     fun getFFI(): FirebaseFirestore= FirebaseFirestore.getInstance()
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

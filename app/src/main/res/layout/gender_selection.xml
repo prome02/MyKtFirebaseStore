@@ -2,84 +2,74 @@
 <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
     android:layout_width="match_parent">
-    <LinearLayout
-        android:orientation="horizontal" android:layout_width="wrap_content"
+
+
+    <RadioGroup
+        android:id="@+id/rg_gender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:divider="@android:drawable/divider_horizontal_dark"
         android:showDividers="middle"
-        android:layout_height="match_parent">
+        android:orientation="horizontal">
 
-        <ToggleButton
-            style="@style/sty_gen_sel"
-            android:background="@drawable/check"
+        <RadioButton
             android:id="@+id/tbtn_gen_sel_male"
-
-            android:layout_height="wrap_content"
-            android:textOn="@string/str_gen_sel_male"
+            style="@style/sty_gen_sel"
+            android:text="@string/str_gen_sel_male"
             android:textOff="@string/str_gen_sel_male"
-            android:text="@string/str_gen_sel_male" />
+            android:textOn="@string/str_gen_sel_male" />
 
-        <ToggleButton
-            android:background="@drawable/check"
+        <RadioButton
             android:id="@+id/tbtn_gen_sel_female"
-
-            android:layout_height="wrap_content"
             android:textOff="@string/str_gen_sel_female"
             android:textOn="@string/str_gen_sel_female"
             android:text="@string/str_gen_sel_female"
-            style="@style/sty_gen_sel"/>
-        <ToggleButton
-            style="@style/sty_gen_sel"
-            android:background="@drawable/check"
-            android:id="@+id/tbtn_gen_sel_gay"
+            style="@style/sty_gen_sel" />
 
-            android:layout_height="wrap_content"
+        <RadioButton
+            style="@style/sty_gen_sel"
+            android:id="@+id/tbtn_gen_sel_gay"
             android:textOff="@string/str_gen_sel_gay"
             android:textOn="@string/str_gen_sel_gay"
             android:text="@string/str_gen_sel_gay" />
-        <ToggleButton
-            style="@style/sty_gen_sel"
-            android:background="@drawable/check"
-            android:id="@+id/tbtn_gen_sel_lesbian"
 
-            android:layout_height="wrap_content"
+        <RadioButton
+            style="@style/sty_gen_sel"
+            android:id="@+id/tbtn_gen_sel_lesbian"
             android:textOff="@string/str_gen_sel_lesbian"
             android:textOn="@string/str_gen_sel_lesbian"
             android:text="@string/str_gen_sel_lesbian" />
-        <ToggleButton
-            style="@style/sty_gen_sel"
-            android:background="@drawable/check"
-            android:id="@+id/tbtn_gen_sel_tom"
 
-            android:layout_height="wrap_content"
+        <RadioButton
+            style="@style/sty_gen_sel"
+            android:id="@+id/tbtn_gen_sel_tom"
             android:textOn="@string/str_gen_sel_tom"
             android:textOff="@string/str_gen_sel_tom"
             android:text="@string/str_gen_sel_tom" />
-        <ToggleButton
-            style="@style/sty_gen_sel"
-            android:background="@drawable/check"
-            android:id="@+id/tbtn_gen_sel_queer"
 
-            android:layout_height="wrap_content"
+        <RadioButton
+            style="@style/sty_gen_sel"
+            android:id="@+id/tbtn_gen_sel_queer"
             android:textOff="@string/str_gen_sel_queer"
             android:textOn="@string/str_gen_sel_queer"
             android:text="@string/str_gen_sel_queer" />
-        <ToggleButton
-            style="@style/sty_gen_sel"
-            android:background="@drawable/check"
-            android:id="@+id/tbtn_gen_sel_bi"
 
-            android:layout_height="wrap_content"
+        <RadioButton
+            style="@style/sty_gen_sel"
+            android:id="@+id/tbtn_gen_sel_bi"
             android:textOn="@string/str_gen_sel_bisex"
             android:textOff="@string/str_gen_sel_bisex"
             android:text="@string/str_gen_sel_bisex" />
-        <ToggleButton
+
+        <RadioButton
             style="@style/sty_gen_sel"
-            android:background="@drawable/check"
             android:id="@+id/tbtn_gen_sel_other"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textOff="@string/str_gen_sel_other"
             android:textOn="@string/str_gen_sel_other"
             android:text="@string/str_gen_sel_other" />
-    </LinearLayout>
+    </RadioGroup>
+
+
 </HorizontalScrollView>

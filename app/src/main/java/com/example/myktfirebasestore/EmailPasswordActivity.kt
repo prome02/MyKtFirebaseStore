@@ -176,20 +176,23 @@ class EmailPasswordActivity : BaseActivity(), View.OnClickListener {
     private fun updateUI(user: FirebaseUser?) {
         hideProgressBar()
         if (user != null) {
-//            status.text = getString(R.string.emailpassword_status_fmt,
-//                    user.email, user.isEmailVerified)
-//            detail.text = getString(R.string.firebase_status_fmt, user.uid)
-//
-//            emailPasswordButtons.visibility = View.GONE
-//            emailPasswordFields.visibility = View.GONE
-//            signedInButtons.visibility = View.VISIBLE
-//
-//            verifyEmailButton.isEnabled = !user.isEmailVerified
+            status.text = getString(
+                R.string.emailpassword_status_fmt,
+                user.email, user.isEmailVerified
+            )
+            detail.text = getString(R.string.firebase_status_fmt, user.uid)
 
-            val it=Intent(this, MainActivity::class.java).apply {
+            emailPasswordButtons.visibility = View.GONE
+            emailPasswordFields.visibility = View.GONE
+            signedInButtons.visibility = View.VISIBLE
 
-            }
-            startActivity(it)
+            verifyEmailButton.isEnabled = !user.isEmailVerified
+
+
+//            val it=Intent(this, MainActivity::class.java).apply {
+//
+//            }
+//            startActivity(it)
         } else {
             status.setText(R.string.signed_out)
             detail.text = null

@@ -40,4 +40,5 @@
     <string name="str_gen_sel_queer" translatable="false">Q</string>
     <string name="str_gen_sel_bisex" translatable="false">B</string>
     <string name="str_gen_sel_other">other</string>
+    <string name="str_rconfig_start_page" translatable="false">cities</string>
 </resources>

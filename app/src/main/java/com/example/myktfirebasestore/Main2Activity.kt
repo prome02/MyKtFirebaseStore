@@ -2,18 +2,23 @@ package com.example.myktfirebasestore
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.ktx.toObject
+import kotlinx.android.synthetic.main.activity_main2.*
 import java.lang.Exception
+import java.lang.ref.WeakReference
 import java.util.*
+import kotlin.Comparator
+import kotlin.collections.ArrayList
 
 data class User2(
     var id: String = "", var name: String = "", var birthday: Date = Date(),
@@ -23,10 +28,116 @@ data class User2(
 
 class Main2Activity : AppCompatActivity() {
 
+    companion object {
+        class MyHandler : Handler {
+            var mOuter: WeakReference<Main2Activity>? = null
+
+            constructor(ref: Main2Activity) {
+                mOuter = WeakReference<Main2Activity>(ref)
+            }
+
+            override fun handleMessage(msg: Message) {
+                when (msg.what) {
+                    GetCities.TagNum -> {
+                        Log.d(GetCities.Tag, "TestTask.arg1=${msg.arg1}")
+
+                        val lst = msg.data.getStringArrayList(GetCities.Tag)
+                        val act = mOuter?.get()
+                        val lv = act?.findViewById<ListView>(R.id.lvCities)
+                        if (act == null || lst == null) return
+
+                        lv?.adapter = ArrayAdapter<String>(
+                            act,
+                            android.R.layout.simple_list_item_1,
+                            lst.toMutableList()
+                        )
+
+                    }
+                }
+                super.handleMessage(msg)
+            }
+        }
+
+        class GetSearingList(val mHdle: Handler) : Runnable {
+            override fun run() {
+
+
+            }
+
+            companion object {
+                val TagNum = 12
+                val Tag = GetSearingList.javaClass.simpleName
+            }
+        }
+
+        class GetCities(val mHdle: Handler) : Runnable {
+            override fun run() {
+                val db = FirebaseFirestore.getInstance()
+                val str = "cities_en"
+                db.collection("cities").document(str).get()
+                    .addOnSuccessListener { doc ->
+
+                        if (doc != null) {
+
+                            val ma = doc.data as HashMap<String, List<String?>>
+
+                            val lst = ma[str]
+
+                            if (lst == null) throw Exception("cities get error")
+                            if (lst.count() > 0) {
+                                val ary = ArrayList<String?>()
+                                for (it in lst) {
+                                    ary.add(it)
+                                }
+                                val msg = mHdle.obtainMessage()
+                                Log.d(Tag, "TestTask.what=${msg.what}")
+                                msg.what = TagNum
+                                msg.data = Bundle().apply {
+
+                                    putStringArrayList(Tag, ary)
+                                }
+                                mHdle.sendMessage(msg)
+                            }
+                        }
+
+                    }
+
+            }
+
+            companion object {
+                val TagNum = 16
+                val Tag = GetCities.javaClass.simpleName
+            }
+        }
+    }
+
+    val mHdle = MyHandler(this)
+
+
+    lateinit var mThread: Thread
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
+
+        mThread = Thread(GetCities(MyHandler(this)))
+        mThread.start()
+
+
+        edtInput.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
     }
+
 
     val email = "asx@gtc.com.tw"
     val collName = "users"
@@ -64,5 +175,28 @@ class Main2Activity : AppCompatActivity() {
                 }
 
             })
+    }
+
+
+    fun onBinarySearch(v: View) {
+//        val ary=resources.getStringArray(R.array.cities_en)
+//
+//        class CitiesComp:Comparator<String>{
+//            override fun compare(o1: String?, o2: String?): Int {
+//
+//                    if(o1==null || o2==null) throw Exception("string null")
+//                    return o1?.compareTo(o2)
+//
+//            }
+//        }
+//
+//        ary.sort()
+//        val pos=ary.binarySearch("Taipei")
+//
+//
+//        for (i in 0..5)
+//        {
+//            Log.d(TAG," ${ary[pos+i]}")
+//        }
     }
 }
