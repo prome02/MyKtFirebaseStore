@@ -199,8 +199,8 @@ class MainActivity : AppCompatActivity() {
 
     }
     fun onClickWriteCitiesData(v: View){
-//        val db=getFFI()
-//        val cities = db.collection("cities")
+        val db = getFFI()
+        val cities = db.collection("cities")
 //        val citiesAry=resources.getStringArray(R.array.cities_en)
 //
 //

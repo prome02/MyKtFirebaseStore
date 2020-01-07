@@ -1,9 +1,7 @@
 package com.example.myktfirebasestore
 
+import android.os.*
 import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.os.Handler
-import android.os.Message
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -13,12 +11,17 @@ import android.widget.ListView
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.protobuf.LazyStringArrayList
+import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.activity_main2.*
 import java.lang.Exception
 import java.lang.ref.WeakReference
 import java.util.*
 import kotlin.Comparator
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
+
 
 data class User2(
     var id: String = "", var name: String = "", var birthday: Date = Date(),
@@ -26,9 +29,14 @@ data class User2(
     var country: String = "", var desp: String = ""
 )
 
+@Parcelize
+class CitiesDataType() : ArrayList<String>(), Parcelable
+
 class Main2Activity : AppCompatActivity() {
 
     companion object {
+
+
         class MyHandler : Handler {
             var mOuter: WeakReference<Main2Activity>? = null
 
@@ -41,15 +49,16 @@ class Main2Activity : AppCompatActivity() {
                     GetCities.TagNum -> {
                         Log.d(GetCities.Tag, "TestTask.arg1=${msg.arg1}")
 
-                        val lst = msg.data.getStringArrayList(GetCities.Tag)
+                        val list = msg.data.getParcelable<CitiesDataType>(GetCities.Tag)
+
                         val act = mOuter?.get()
                         val lv = act?.findViewById<ListView>(R.id.lvCities)
-                        if (act == null || lst == null) return
+                        if (act == null || list == null) return
 
                         lv?.adapter = ArrayAdapter<String>(
                             act,
                             android.R.layout.simple_list_item_1,
-                            lst.toMutableList()
+                            list
                         )
 
                     }
@@ -58,17 +67,17 @@ class Main2Activity : AppCompatActivity() {
             }
         }
 
-        class GetSearingList(val mHdle: Handler) : Runnable {
-            override fun run() {
-
-
-            }
-
-            companion object {
-                val TagNum = 12
-                val Tag = GetSearingList.javaClass.simpleName
-            }
-        }
+//        class GetSearingList(val mHdle: Handler, val cities:CitiesDataType, val strSrc:String) : Runnable {
+//            override fun run() {
+//
+//
+//            }
+//
+//            companion object {
+//                val TagNum = 12
+//                val Tag = GetSearingList.javaClass.simpleName
+//            }
+//        }
 
         class GetCities(val mHdle: Handler) : Runnable {
             override fun run() {
@@ -79,25 +88,30 @@ class Main2Activity : AppCompatActivity() {
 
                         if (doc != null) {
 
-                            val ma = doc.data as HashMap<String, List<String?>>
+//                            val ma = doc.data as HashMap<String, List<String?>>
 
+                            val ma = doc.getData()
+
+                            if (ma == null) throw Exception("cities get error 01")
                             val lst = ma[str]
+                            if (lst == null) throw Exception("cities get error 02")
 
-                            if (lst == null) throw Exception("cities get error")
-                            if (lst.count() > 0) {
-                                val ary = ArrayList<String?>()
+                            if (lst is List<*> && lst.count() > 0) {
+                                val ary = CitiesDataType()
                                 for (it in lst) {
-                                    ary.add(it)
+                                    if (it is String) ary.add(it)
                                 }
                                 val msg = mHdle.obtainMessage()
                                 Log.d(Tag, "TestTask.what=${msg.what}")
                                 msg.what = TagNum
                                 msg.data = Bundle().apply {
-
-                                    putStringArrayList(Tag, ary)
+                                    putParcelable(Tag, ary)
+//                                    putStringArrayList(Tag, ary)
                                 }
                                 mHdle.sendMessage(msg)
                             }
+
+
                         }
 
                     }
