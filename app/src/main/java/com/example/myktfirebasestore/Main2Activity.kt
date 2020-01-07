@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.protobuf.compiler.PluginProtos
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.activity_main2.*
+import java.io.*
 import java.lang.Exception
 import java.lang.ref.WeakReference
 import java.util.*
@@ -167,10 +168,15 @@ class Main2Activity : AppCompatActivity() {
     val mHdle = MyHandler(this)
 
     lateinit var listView: ListView
-    //    lateinit var mThread: Thread
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
+
+
+
+
+
 
         listView = findViewById<ListView>(R.id.lvCities)
         Thread(GetCities(MyHandler(this))).start()
@@ -262,5 +268,32 @@ class Main2Activity : AppCompatActivity() {
 //        {
 //            Log.d(TAG," ${ary[pos+i]}")
 //        }
+    }
+
+    fun onClickReadWriteTest(v: View) {
+        try {
+            val str = "test.txt"
+            val dir = this.filesDir
+            val pa = dir.path
+//            val f=File(pa,str)
+//            f.createNewFile()
+//            val osw=OutputStreamWriter(FileOutputStream(f))
+//            val sp=System.lineSeparator()
+//            for(it in cities)
+//            {
+//                osw.write(it+sp)
+//            }
+//            osw.close()
+
+            val isr = InputStreamReader(FileInputStream(File(pa, str)))
+            val ls = isr.readLines()
+            for (it in ls) {
+                println(it)
+            }
+            isr.close()
+        } catch (e: Exception) {
+            Log.d("er", e.message)
+        }
+
     }
 }
