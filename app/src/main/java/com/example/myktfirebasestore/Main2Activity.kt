@@ -81,6 +81,10 @@ class Main2Activity : AppCompatActivity() {
                             ArrayAdapter<String>(act, android.R.layout.simple_list_item_1, list)
                         lv?.visibility = View.VISIBLE
                     }
+                    R.id.A1 -> {
+                        val res = msg.data.getString(R.id.A1.toString())
+                        Log.d("TAG", res)
+                    }
                 }
 
             }
@@ -296,4 +300,15 @@ class Main2Activity : AppCompatActivity() {
         }
 
     }
+
+    fun onCurrentDate(v: View) {
+        val cal = Calendar.getInstance()
+        Log.d("msg", "${Calendar.getInstance().time.toString()}")
+    }
+
+    fun onPathFF(v: View) {
+        Thread(A1(mHdle)).start()
+    }
+
+
 }

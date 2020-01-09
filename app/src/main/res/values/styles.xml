@@ -15,9 +15,9 @@
 
     <style name="sty_gen_sel" parent="TextAppearance.AppCompat.Button">
         <item name="android:layout_width">21pt</item>
-
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/check</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
 
