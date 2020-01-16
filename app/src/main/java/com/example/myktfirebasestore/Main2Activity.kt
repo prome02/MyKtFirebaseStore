@@ -306,8 +306,10 @@ class Main2Activity : AppCompatActivity() {
         Log.d("msg", "${Calendar.getInstance().time.toString()}")
     }
 
+    lateinit var a1: A1
     fun onPathFF(v: View) {
-        Thread(A1(mHdle)).start()
+        a1 = A1(mHdle)
+        Thread(a1).start()
     }
 
 
@@ -324,5 +326,9 @@ class Main2Activity : AppCompatActivity() {
             }
 
 
+    }
+
+    fun onStopListen(v: View) {
+        a1.qry?.remove()
     }
 }

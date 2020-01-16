@@ -3,10 +3,7 @@ package com.example.myktfirebasestore
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.*
 import java.lang.Exception
 import java.util.*
 import kotlin.collections.HashMap
@@ -30,6 +27,7 @@ class FFOperation {
 }
 
 class A1(val hdle: Handler) : Runnable {
+    var qry: ListenerRegistration? = null
     override fun run() {
 
         val strID = "id"
@@ -63,7 +61,7 @@ class A1(val hdle: Handler) : Runnable {
 ////////////////////////////////////////////////////////////
 
 
-        val qry = db.collection(path).whereEqualTo(strID, email)
+        qry = db.collection(path).whereEqualTo(strID, email)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {
                     return@addSnapshotListener
@@ -94,8 +92,17 @@ class A1(val hdle: Handler) : Runnable {
 //                        Log.d("TAG", "*************from $source, ${doc.toString()}")
 //                    }
 
+                    val msg = hdle.obtainMessage()
+                    msg.what = R.id.A1
+                    val bu = Bundle().apply {
+                        //                        putParcelable(R.id.A1.toString(), )
+                        putString(R.id.A1.toString(), res)
+                    }
+                    msg.data = bu
+                    hdle.sendMessage(msg)
                 }
             }
+
 ////////////////////////////////////////////////////////////
 //        val msg = hdle.obtainMessage()
 //        msg.what = R.id.A1
