@@ -311,4 +311,18 @@ class Main2Activity : AppCompatActivity() {
     }
 
 
+    fun onUpdate(v: View) {
+        val db = FirebaseFirestore.getInstance()
+        val pref = db.collection("trips").whereEqualTo("A1", "are you ok").get()
+            .addOnSuccessListener {
+                for (doc in it.documents) {
+                    val targetDoc = db.document(doc.reference.path)
+                    targetDoc.update("A2", 1973)
+                }
+            }.addOnFailureListener {
+                Log.d(TAG, it.toString())
+            }
+
+
+    }
 }

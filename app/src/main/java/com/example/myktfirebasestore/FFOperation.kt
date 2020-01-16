@@ -3,10 +3,13 @@ package com.example.myktfirebasestore
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import java.lang.Exception
 import java.util.*
+import kotlin.collections.HashMap
 
 
 interface FFGet {
@@ -29,34 +32,78 @@ class FFOperation {
 class A1(val hdle: Handler) : Runnable {
     override fun run() {
 
+        val strID = "id"
+        val email = "promethus@gmail.com"
         val data = hashMapOf<String, Any>(
-            "id" to "aaa@a.com",
+            strID to email,
             "A1" to "are you ok",
             "A2" to 1972,
             "TimeZone" to TimeZone.getDefault().displayName
 
         )
         var res = ""
-        val path = "cities/test"
+        val path = "trips"
         val db = FirebaseFirestore.getInstance()
 //        db.document(path).set(data, SetOptions.merge()).addOnSuccessListener {
 //            res="success"
 //        }.addOnFailureListener {
 //            res=it.message.toString()
 //        }
+////////////////////////////////////////////////////////////
 
-        db.collection("cities").add(data).addOnSuccessListener {
-            res = "success"
-        }.addOnFailureListener {
-            res = it.message.toString()
-        }
-        val msg = hdle.obtainMessage()
-        msg.what = R.id.A1
-        val bu = Bundle().apply {
-            putString(R.id.A1.toString(), res)
-        }
-        msg.data = bu
-        hdle.sendMessage(msg)
+//        try {
+//            db.collection(path).add(data).addOnSuccessListener {
+//                res = "success"
+//            }.addOnFailureListener {
+//                res = it.message.toString()
+//            }
+//        } catch (e: Exception) {
+//
+//        }
+////////////////////////////////////////////////////////////
+
+
+        val qry = db.collection(path).whereEqualTo(strID, email)
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                if (firebaseFirestoreException != null) {
+                    return@addSnapshotListener
+                }
+                val source = if (querySnapshot != null && querySnapshot.metadata.hasPendingWrites())
+                    "Local"
+                else
+                    "Server"
+
+                if (querySnapshot?.isEmpty == false) {
+                    for (dc in querySnapshot!!.documentChanges) {
+                        when (dc.type) {
+                            DocumentChange.Type.ADDED -> Log.d(
+                                "TAG",
+                                "New : $source: ${dc.document.data}"
+                            )
+                            DocumentChange.Type.MODIFIED -> Log.d(
+                                "TAG",
+                                "Modified : $source: ${dc.document.data}"
+                            )
+                            DocumentChange.Type.REMOVED -> Log.d(
+                                "TAG",
+                                "Removed : $source: ${dc.document.data}"
+                            )
+                        }
+                    }
+//                    for(doc in querySnapshot!!){
+//                        Log.d("TAG", "*************from $source, ${doc.toString()}")
+//                    }
+
+                }
+            }
+////////////////////////////////////////////////////////////
+//        val msg = hdle.obtainMessage()
+//        msg.what = R.id.A1
+//        val bu = Bundle().apply {
+//            putString(R.id.A1.toString(), res)
+//        }
+//        msg.data = bu
+//        hdle.sendMessage(msg)
 
 
     }
