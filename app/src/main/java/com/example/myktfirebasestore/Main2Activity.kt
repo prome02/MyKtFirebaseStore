@@ -4,6 +4,7 @@ import android.os.*
 import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
+import android.text.format.DateUtils
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
@@ -17,6 +18,7 @@ import kotlinx.android.synthetic.main.activity_main2.*
 import java.io.*
 import java.lang.Exception
 import java.lang.ref.WeakReference
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.Comparator
 import kotlin.collections.ArrayList
@@ -330,5 +332,23 @@ class Main2Activity : AppCompatActivity() {
 
     fun onStopListen(v: View) {
         a1.qry?.remove()
+    }
+
+    fun onAddData(v: View) {
+        val sdf = SimpleDateFormat("yyyy/MM/dd")
+        val now = Date()
+        val init = sdf.format(now)
+        Log.d(TAG, "now=$init")
+        val cal = Calendar.getInstance()
+        cal.time = now
+        cal.add(Calendar.DAY_OF_MONTH, 1)
+        val now2 = cal.time
+        Log.d(TAG, "now=${sdf.format(cal.time)}")
+
+        cal.add(Calendar.DAY_OF_MONTH, -2)
+        val now3 = cal.time
+        Log.d(TAG, "now=${sdf.format(cal.time)}")
+        val cmp = now2.compareTo(now3)
+        Log.d(TAG, "result of comparing=$cmp")
     }
 }

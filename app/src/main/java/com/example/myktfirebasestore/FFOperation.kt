@@ -6,6 +6,7 @@ import android.util.Log
 import com.google.firebase.firestore.*
 import java.lang.Exception
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 
@@ -113,6 +114,32 @@ class A1(val hdle: Handler) : Runnable {
 //        hdle.sendMessage(msg)
 
 
+    }
+
+
+    val f1: String.(Int) -> String = { times -> this.repeat(times) }
+    val f2: (String, Int) -> String = { s, i -> s + i.toString() }
+    val fc1: (Query, String, Any) -> Query = Query::whereEqualTo
+    val fc2: (Query, String, Any) -> Query = Query::whereGreaterThan
+    val nearDate: (Query, String, Any) -> Query = { q, s, a ->
+        q.whereEqualTo(s, a)
+        q.whereGreaterThan(s, a)
+    }
+
+    data class QueryData(val f: (Query, String, Any) -> Query, val filed: String, val obj: Any)
+
+    fun test() {
+        val db = FirebaseFirestore.getInstance()
+        val coll = db.collection("trips")
+        var q = coll.limit(10)
+        val lst = ArrayList<QueryData>()
+        lst.add(QueryData(fc1, "cityFrom", "Taipei"))
+        lst.add(QueryData(fc2, "darrive", Date()))
+
+        for (i in lst) {
+            q = i.f(q, i.filed, i.obj)
+        }
+        q.get()
     }
 
 }
