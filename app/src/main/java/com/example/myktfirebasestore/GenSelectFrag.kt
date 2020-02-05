@@ -4,11 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
 import android.widget.RadioGroup
-import android.widget.ToggleButton
 import androidx.fragment.app.Fragment
-import java.lang.Exception
 
 class GenSelectFrag: Fragment() {
     override fun onPause() {
@@ -19,42 +16,34 @@ class GenSelectFrag: Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-
-//    val tbList=ArrayList<ToggleButton>(8)
-//    lateinit var tbM:ToggleButton
-//    lateinit var tbF:ToggleButton
-//    lateinit var tbL:ToggleButton
-//    lateinit var tbG:ToggleButton
-//    lateinit var tbB:ToggleButton
-//    lateinit var tbQ:ToggleButton
-//    lateinit var tbT:ToggleButton
-//    lateinit var tbO:ToggleButton
-//
-//    val checkListner=object :CompoundButton.OnCheckedChangeListener{
-//        override fun onCheckedChanged(btn: CompoundButton?, isChecked: Boolean) {
-//
-//            try {
-//                when( btn?.id) {
-//                    R.id.tbtn_gen_sel_other-> {
-//                        if (isChecked) {
-//
-//                            for (it in tbList) {
-//                                it.isChecked = false
-//
-//                            }
-//                        }
-//                    }
-//                    R.id.tbtn_gen_sel_male-> if(tbF.isChecked)tbF.isChecked=false
-//                    R.id.tbtn_gen_sel_female->if(tbM.isChecked)tbM.isChecked=false
-//                    else-> {}
-//
-//                }
-//            } catch (e: Exception) {
-//            }
-//        }
-//    }
+    val map = hashMapOf<Gender, Int>(
+        Gender.M to R.id.tbtn_gen_sel_male,
+        Gender.F to R.id.tbtn_gen_sel_female,
+        Gender.L to R.id.tbtn_gen_sel_lesbian,
+        Gender.G to R.id.tbtn_gen_sel_gay,
+        Gender.T to R.id.tbtn_gen_sel_tom,
+        Gender.Q to R.id.tbtn_gen_sel_queer,
+        Gender.B to R.id.tbtn_gen_sel_bi,
+        Gender.Other to R.id.tbtn_gen_sel_other
+    )
+//    val ids= listOf<Int>(R.id.tbtn_gen_sel_male,
+//    R.id.tbtn_gen_sel_female,
+//    R.id.tbtn_gen_sel_lesbian,
+//    R.id.tbtn_gen_sel_gay,
+//    R.id.tbtn_gen_sel_tom,
+//    R.id.tbtn_gen_sel_queer,
+//    R.id.tbtn_gen_sel_bi,
+//    R.id.tbtn_gen_sel_other)
 
     lateinit var radioGroup: RadioGroup
+    fun setState(gr: Gender) {
+
+        if (gr == Gender.Unknown) return
+        val id = map[gr]
+        radioGroup.check(id!!)
+
+    }
+
     fun getState(): Gender {
         when (radioGroup.checkedRadioButtonId) {
             R.id.tbtn_gen_sel_male -> return Gender.M
@@ -72,29 +61,13 @@ class GenSelectFrag: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val mainV = inflater.inflate(R.layout.gender_selection, container, false)
         radioGroup = mainV.findViewById<RadioGroup>(R.id.rg_gender)
-//        val ids= listOf<Int>( R.id.tbtn_gen_sel_bi, R.id.tbtn_gen_sel_tom,
-//            R.id.tbtn_gen_sel_male,R.id.tbtn_gen_sel_female,R.id.tbtn_gen_sel_lesbian,
-//            R.id.tbtn_gen_sel_gay,R.id.tbtn_gen_sel_queer)
-//
-//        for(it in ids) tbList.add(mainV.findViewById<ToggleButton>(it))
-//
-//
-//        tbB=mainV.findViewById<ToggleButton>(R.id.tbtn_gen_sel_bi)
-//        tbM=mainV.findViewById<ToggleButton>(R.id.tbtn_gen_sel_male)
-//        tbF=mainV.findViewById<ToggleButton>(R.id.tbtn_gen_sel_female)
-//        tbL=mainV.findViewById<ToggleButton>(R.id.tbtn_gen_sel_lesbian)
-//        tbG=mainV.findViewById<ToggleButton>(R.id.tbtn_gen_sel_gay)
-//        tbQ=mainV.findViewById<ToggleButton>(R.id.tbtn_gen_sel_queer)
-//        tbT=mainV.findViewById<ToggleButton>(R.id.tbtn_gen_sel_tom)
-//
-//        tbO=mainV.findViewById<ToggleButton>(R.id.tbtn_gen_sel_other)
-//        if(tbO!=null) tbO.setOnCheckedChangeListener(checkListner)
-//
-//        for (it in tbList) it.setOnCheckedChangeListener(checkListner)
         return mainV
     }
 
-
+    fun setEnable(bEnable: Boolean) {
+        radioGroup.isEnabled = bEnable
+    }
 }

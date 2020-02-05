@@ -41,4 +41,13 @@
     <string name="str_gen_sel_bisex" translatable="false">B</string>
     <string name="str_gen_sel_other">other</string>
     <string name="str_rconfig_start_page" translatable="false">cities</string>
+    <string name="face_title" translatable="false">select source</string>
+    <string name="str_iv_content_desp" translatable="false">your face photo</string>
+    <string name="str_name_or_nickname" translatable="false">write your name/nickname</string>
+    <string name="str_select_birthday" translatable="false">select birthday</string>
+    <string name="str_hint_language" translatable="false">write that those languages you can handle</string>
+    <string name="str_hint_contury" translatable="false">which conturys did you stay usually?</string>
+    <string name="str_edt_hint" translatable="false">descript yourself, who you are</string>
+    <string name="google_storage_bucket_face_photos_dir" translatable="false">images/</string>
+    <string name="str_date_format" translatable="false">yyyy/MM/dd</string>
 </resources>

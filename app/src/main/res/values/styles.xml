@@ -20,6 +20,12 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="sty_button">
+        <item name="android:background">@drawable/btn_bg_sel</item>
+        <item name="android:textColor">@color/icons</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
 
 
 <!--    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">-->

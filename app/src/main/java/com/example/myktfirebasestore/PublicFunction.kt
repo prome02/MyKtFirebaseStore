@@ -1,60 +1,137 @@
 package com.example.myktfirebasestore
 
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Bitmap
 import android.view.View
+import android.widget.DatePicker
+import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.storage.FirebaseStorage
+import java.io.ByteArrayOutputStream
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HelpObject(val ctx: Context, val titleMsgId:Int, val contentId:Int): View.OnClickListener {
+interface DatePickerCallback {
+    fun onGetDateString(str: String)
+}
+
+class HelpObject(val ctx: Context, val titleMsgId: Int, val contentId: Int) : View.OnClickListener {
     override fun onClick(p0: View?) {
 
-        showDlg(ctx, titleMsgId, contentId)
+        showMsgDlg(ctx, titleMsgId, contentId)
     }
 
     companion object {
-//        fun getUserId(ct: Context): String? {
-//            val res = ct.resources
+        //        fun setPrefUserId(ct: Context, uid:String){
+//            //get preference form file
 //            val pref =
-//                ct.getSharedPreferences(res.getString(R.string.str_pref_name), Context.MODE_PRIVATE)
-//            if (pref == null) return null
-//
-//            val tagEmailID = res.getString(R.string.str_uid_tag)
-//            val str = pref.getString(tagEmailID, "")
-//            if (str == null) return null
-//            if(str.length==0) return ""
-//
-//            return pref.getString(res.getString(R.string.app_name),"")
-//
+//                ct.getSharedPreferences(ct.resources.getString(R.string.str_pref_name), Context.MODE_PRIVATE)
+//            val tagEmailID = ct.resources.getString(R.string.str_uid_tag)
+//            pref.edit().putString(tagEmailID, uid).commit()
 //        }
+//        fun getPrefUserId(ct: Context): String? {
+//
+//            //get preference form file
+//            val pref =
+//                ct.getSharedPreferences(ct.resources.getString(R.string.str_pref_name), Context.MODE_PRIVATE)
+//
+//            // id from preference
+//            val tagEmailID = ct.resources.getString(R.string.str_uid_tag)
+//            return pref?.getString(tagEmailID, "")
+//        }
+        fun uploadImage(
+            bitmap: Bitmap,
+            context: Context,
+            uid: String,
+            filename: String,
+            f: () -> Unit
+        ) {
 
-        fun stringToDate(ct: Context, strDate: String): Date {
-            val dft = SimpleDateFormat("yyyy/MM/dd")
-            val da = dft.parse(strDate)
-            if (da == null) throw Exception()
-            else return da
+
+            val baos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val data: ByteArray = baos.toByteArray()
+
+            val res = context.resources
+            val gs: String = res.getString(R.string.google_storage_bucket)
+            val childPath: String =
+                res.getString(R.string.google_storage_bucket_face_photos_dir) + uid + "/"
+            val targetName = childPath + filename
+
+            val storage = FirebaseStorage.getInstance(gs)
+            val imgRef = storage.reference.child(targetName)
+
+
+            imgRef.putBytes(data).addOnFailureListener {
+                // Handle unsuccessful uploads
+                it.printStackTrace()
+                throw it
+            }.addOnSuccessListener { taskSnapshot ->
+                f()
+            }
         }
-        fun showDlg(ct:Context, title:String, content:String){
+
+        fun documents2AListForQueryTrips(qrySS: QuerySnapshot): ArrayList<WrapTravelData> {
+            val alist = ArrayList<WrapTravelData>()
+            if (qrySS.isEmpty == false) {
+
+                for (doc in qrySS.documents) {
+                    val d = doc?.toObject<TravelData>()
+                    if (d != null) alist.add(WrapTravelData(d, doc.reference.path))
+                }
+
+            }
+            return alist
+        }
+
+        fun showMsgDlg(ct: Context, strTitle: Int, strCnt: Int) {
             AlertDialog.Builder(ct)
-                .setTitle(title)
-                .setMessage(content)
-                .setPositiveButton(android.R.string.ok, object :DialogInterface.OnClickListener{
+                .setTitle(ct.resources.getString(strTitle))
+                .setMessage(ct.resources.getString(strCnt))
+                .setPositiveButton(android.R.string.ok, object : DialogInterface.OnClickListener {
                     override fun onClick(p0: DialogInterface?, p1: Int) {
 
                     }
                 }).show()
         }
-    fun showDlg(ct:Context, strTitle:Int, strCnt:Int) {
-        AlertDialog.Builder(ct)
-            .setTitle(ct.resources.getString(strTitle))
-            .setMessage(ct.resources.getString(strCnt))
-            .setPositiveButton(android.R.string.ok, object : DialogInterface.OnClickListener {
-                override fun onClick(p0: DialogInterface?, p1: Int) {
 
+        lateinit var sdf: SimpleDateFormat
+        fun initSDF(ctx: Context) {
+            sdf = SimpleDateFormat(ctx.resources.getString(R.string.str_date_format), Locale.TAIWAN)
+        }
+
+        fun dateToString(data: Date): String {
+
+            return sdf.format(data)
+        }
+
+        fun stringToDate(strDate: String): Date {
+
+            val date = sdf.parse(strDate)
+            if (date == null) throw Exception("stringToDate error")
+            return date
+        }
+
+
+        fun pickDate(ctx: Context, callback: DatePickerCallback) {
+            val cal = Calendar.getInstance()
+            val y = 2002
+            val m = cal.get(Calendar.MONTH)
+            val d = cal.get(Calendar.DAY_OF_MONTH)
+
+
+            DatePickerDialog(ctx, object : DatePickerDialog.OnDateSetListener {
+                override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
+
+                    if (p0 != null && p0.isShown)
+                        callback.onGetDateString("$p1/${p2 + 1}/$p3")
                 }
-            }).show()
+            }, y, m, d)
+                .show()
+        }
     }
-}
 }

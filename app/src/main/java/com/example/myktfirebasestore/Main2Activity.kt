@@ -127,7 +127,7 @@ class Main2Activity : AppCompatActivity() {
                             for (it in list) listSearched.add(it.toLowerCase())
                             val inputFrag =
                                 act.supportFragmentManager.findFragmentById(R.id.input_frag) as CityInputCtrl
-                            inputFrag.paras = CityInputCtrlParas(list, listSearched)
+                            inputFrag.paras = CityInputCtrlParas(list, listSearched, ListView(act))
 
 //                            for (i in 0..30) println("$i) ${listSearched[i]}")
                         }
@@ -306,7 +306,7 @@ class Main2Activity : AppCompatActivity() {
     }
 
     fun onAddDataToFF(v: View) {
-        val date = HelpObject.stringToDate(this, "1971/03/04")
+        val date = HelpObject.stringToDate("1971/03/04")
         val info = User2(email, "Mary", date, 2, "chinese", "taiwan", "")
         val db = FirebaseFirestore.getInstance()
         db.collection(collName).document(info.id).set(info)
@@ -403,7 +403,7 @@ class Main2Activity : AppCompatActivity() {
 
     fun onAddData(v: View) {
 
-        val sdf = SimpleDateFormat("yyyy/MM/dd")
+        val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.TAIWAN)
         val datasTrips = listOf<TravelData>(
 //            TravelData("Accra", "Taipei", -1, 1,"",
 //                sdf.parse("2020/01/17"), sdf.parse("2020/01/19"),
