@@ -19,6 +19,26 @@ interface DatePickerCallback {
     fun onGetDateString(str: String)
 }
 
+class DateConvertor(val ctx: Context) {
+
+    private var sdf: SimpleDateFormat
+
+    init {
+        sdf = SimpleDateFormat(ctx.resources.getString(R.string.str_date_format), Locale.TAIWAN)
+    }
+
+    fun dateToString(data: Date): String {
+        return sdf.format(data)
+    }
+
+    fun stringToDate(strDate: String): Date {
+
+        val date = sdf.parse(strDate)
+        if (date == null) throw Exception("stringToDate error")
+        return date
+    }
+
+}
 class HelpObject(val ctx: Context, val titleMsgId: Int, val contentId: Int) : View.OnClickListener {
     override fun onClick(p0: View?) {
 
@@ -70,7 +90,7 @@ class HelpObject(val ctx: Context, val titleMsgId: Int, val contentId: Int) : Vi
                 // Handle unsuccessful uploads
                 it.printStackTrace()
                 throw it
-            }.addOnSuccessListener { taskSnapshot ->
+            }.addOnSuccessListener { _ ->
                 f()
             }
         }
@@ -99,22 +119,7 @@ class HelpObject(val ctx: Context, val titleMsgId: Int, val contentId: Int) : Vi
                 }).show()
         }
 
-        lateinit var sdf: SimpleDateFormat
-        fun initSDF(ctx: Context) {
-            sdf = SimpleDateFormat(ctx.resources.getString(R.string.str_date_format), Locale.TAIWAN)
-        }
 
-        fun dateToString(data: Date): String {
-
-            return sdf.format(data)
-        }
-
-        fun stringToDate(strDate: String): Date {
-
-            val date = sdf.parse(strDate)
-            if (date == null) throw Exception("stringToDate error")
-            return date
-        }
 
 
         fun pickDate(ctx: Context, callback: DatePickerCallback) {

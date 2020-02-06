@@ -50,4 +50,8 @@
     <string name="str_edt_hint" translatable="false">descript yourself, who you are</string>
     <string name="google_storage_bucket_face_photos_dir" translatable="false">images/</string>
     <string name="str_date_format" translatable="false">yyyy/MM/dd</string>
+    <string name="userinfo_var_title_name" translatable="false">name</string>
+    <string name="userinfo_var_title_language" translatable="false">language</string>
+    <string name="userinfo_var_title_country" translatable="false">country</string>
+    <string name="userinfo_var_title_description" translatable="false">name</string>
 </resources>

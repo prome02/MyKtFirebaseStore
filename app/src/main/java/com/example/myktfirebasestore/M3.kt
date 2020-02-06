@@ -7,12 +7,15 @@ import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.Html
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.text.HtmlCompat
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
@@ -147,9 +150,18 @@ class M3 : AppCompatActivity() {
                         val bu = Bundle()
                         bu.putParcelable(WrapTravelDatas::class.java.simpleName, wraps)
                         val intent = Intent(this@M3, BrowserUserAct::class.java)
-                        intent.putExtras(bu)
+                        intent.putExtra(WrapTravelDatas::class.java.simpleName, bu)
                         startActivity(intent)
                     }
             }
+    }
+
+    fun onTvReturn(v: View) {
+        findViewById<TextView>(R.id.textView).apply {
+            setTextSize(18.toFloat())
+            val s = "this is test<br> <big>is</big> it <small>right</small>?<p> yes"
+
+            setText(HtmlCompat.fromHtml(s, HtmlCompat.FROM_HTML_SEPARATOR_LINE_BREAK_BLOCKQUOTE))
+        }
     }
 }

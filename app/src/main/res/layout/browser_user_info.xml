@@ -9,66 +9,34 @@
     android:padding="8dp">
 
 
-    <ImageView
-        android:id="@+id/iv_photo"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginRight="2dp"
-
-        android:contentDescription="@string/str_iv_content_desp"
+    <LinearLayout
+        android:id="@+id/lyt_first"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_account_box_24px" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/edtUsername"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/str_name_or_nickname"
-        android:inputType="textPersonName"
-        android:maxLines="1"
-        android:enabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/iv_photo"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/iv_photo"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
 
 
-    <Button
-        android:id="@+id/btn_select_birthday"
-        style="@style/sty_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/str_select_birthday"
-        android:enabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/iv_photo"
-        app:layout_constraintTop_toBottomOf="@+id/edtUsername" />
+            android:contentDescription="@string/str_iv_content_desp"
 
-    <EditText
-        android:id="@+id/edtLanguage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_account_box_24px" />
 
-        android:enabled="false"
-        android:hint="@string/str_hint_language"
-        android:maxLines="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/iv_photo"
-        app:layout_constraintTop_toBottomOf="@+id/btn_select_birthday" />
+        <TextView
+            android:text="test"
+            android:id="@+id/txt_user_content"
+            android:textSize="10pt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/edtCountry"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:enabled="false"
-        android:hint="@string/str_hint_contury"
-        android:maxLines="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/iv_photo"
-        app:layout_constraintTop_toBottomOf="@+id/edtLanguage" />
+    </LinearLayout>
+
 
     <fragment
         android:id="@+id/frag_gen_sel"
@@ -78,7 +46,7 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtCountry" />
+        app:layout_constraintTop_toBottomOf="@+id/lyt_first" />
 
     <!--    <LinearLayout-->
     <!--        android:id="@+id/lyt_personal"-->
@@ -116,13 +84,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/edtDesc"
+            <TextView
+                android:id="@+id/txt_desp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:gravity="top|left"
-                android:hint="@string/str_edt_hint" />
+
+                android:gravity="top|left" />
 
             <ListView
                 android:id="@+id/lvTrips"

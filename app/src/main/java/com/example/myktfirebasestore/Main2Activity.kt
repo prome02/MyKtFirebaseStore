@@ -24,70 +24,7 @@ import kotlin.collections.ArrayList
 import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.KProperty1
 
-@Parcelize
-open class TravelData(
-//variable name can not be changed,
-// because it's related with name of the querying field in Firebase Firestore
-    var cityFrom: String = "",
-    var cityTo: String = "",
-    var id: Long = -1,
-    var transpotation: Int = -1,
-    var transInfo: String = "",
-    var dDepart: Date = Date(),
-    var dArrive: Date = Date(),
-    var description: String = "",
-    var emailID: String = ""
-) : Parcelable {
-    constructor(dd: String, da: String, from: String, to: String, formattedStr: String) : this(
-        from,
-        to
-    ) {
 
-        setDateWithString(dd, da, formattedStr)
-    }
-
-//    fun isTheSame(da: TravelData): Boolean {
-//        if(da.dArrive.compareTo(dArrive)!=0 ||
-//                da.dDepart.compareTo(dDepart)!=0 ||
-//                da.) return false
-//        return true
-//    }
-
-    fun areContentsTheSame(da: TravelData): Boolean {
-
-        if (dDepart.compareTo(da.dDepart) != 0) return false
-        if (dArrive.compareTo(da.dArrive) != 0) return false
-        if (cityFrom != da.cityFrom) return false
-        if (cityTo != da.cityTo) return false
-//         if(id!=da.id) return false
-        return true
-    }
-
-    fun setDateWithString(dDStr: String, dAStr: String, formattedStr: String) {
-
-        try {
-            java.text.SimpleDateFormat(formattedStr).apply {
-                dDepart = parse(dDStr)
-                dArrive = parse(dAStr)
-            }
-        } catch (e: Exception) {
-            Log.d("tda", e.message.toString())
-        }
-    }
-
-    fun isIntersectedInDate(data: TravelData): Boolean {
-        if (data.dDepart >= dArrive) return false
-        else if (data.dArrive <= dDepart) return false
-        else return true
-    }
-
-    fun makeContentTitle(): String {
-        val dft = java.text.SimpleDateFormat("MMM dd")
-        val strDp = dft.format(dDepart)
-        val strAr = dft.format(dArrive)
-        return "$strDp -> $strAr, from:$cityFrom   to:$cityTo"
-    }
-}
 data class User2(
     var id: String = "", var name: String = "", var birthday: Date = Date(),
     var gender: Int = 0, var language: String = "",
@@ -306,7 +243,8 @@ class Main2Activity : AppCompatActivity() {
     }
 
     fun onAddDataToFF(v: View) {
-        val date = HelpObject.stringToDate("1971/03/04")
+        val dc = DateConvertor(this)
+        val date = dc.stringToDate("1971/03/04")
         val info = User2(email, "Mary", date, 2, "chinese", "taiwan", "")
         val db = FirebaseFirestore.getInstance()
         db.collection(collName).document(info.id).set(info)
