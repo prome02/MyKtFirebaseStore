@@ -2,8 +2,10 @@ package com.example.myktfirebasestore
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
@@ -16,6 +18,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.text.HtmlCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
@@ -84,7 +91,7 @@ class M3 : AppCompatActivity() {
 
 
         val storage = FirebaseStorage.getInstance("gs://myktapp-f93c6.appspot.com")
-        val imgPath = "images/a@aa.com/main.jpg"
+        val imgPath = "images/promethus@gmail.com/main.jpg"
         val imgRef = storage.reference.child(imgPath)
         val iv = findViewById<ImageView>(R.id.iv_face)
 
@@ -128,32 +135,35 @@ class M3 : AppCompatActivity() {
 
     fun onSendUserTrip(v: View) {
         val uid = "promethus@gmail.com"
+        val intent = Intent(this@M3, BrowserUserAct::class.java)
+        intent.putExtra(BrowserUserAct::class.java.simpleName, uid)
+        startActivity(intent)
 
-        val list = ArrayList<WrapTravelData>()
-        var userinfo: UserInfo?
-
-        val db = FirebaseFirestore.getInstance()
-        db.collection("trips").whereEqualTo("eailID", uid).get()
-            .addOnSuccessListener {
-
-
-                for (i in it.documents) {
-                    val obj = i.toObject<TravelData>()
-                    val wobj = WrapTravelData(obj!!, i.reference.path)
-                }
-
-                db.collection("users").document(uid).get()
-                    .addOnSuccessListener {
-                        userinfo = it.toObject<UserInfo>()
-
-                        val wraps = WrapTravelDatas(list, userinfo)
-                        val bu = Bundle()
-                        bu.putParcelable(WrapTravelDatas::class.java.simpleName, wraps)
-                        val intent = Intent(this@M3, BrowserUserAct::class.java)
-                        intent.putExtra(WrapTravelDatas::class.java.simpleName, bu)
-                        startActivity(intent)
-                    }
-            }
+//        val list = ArrayList<WrapTravelData>()
+//        var userinfo: UserInfo?
+//
+//        val db = FirebaseFirestore.getInstance()
+//        db.collection("trips").whereEqualTo("eailID", uid).get()
+//            .addOnSuccessListener {
+//
+//
+//                for (i in it.documents) {
+//                    val obj = i.toObject<TravelData>()
+//                    val wobj = WrapTravelData(obj!!, i.reference.path)
+//                }
+//
+//                db.collection("users").document(uid).get()
+//                    .addOnSuccessListener {
+//                        userinfo = it.toObject<UserInfo>()
+//
+//                        val wraps = WrapTravelDatas(list, userinfo)
+//                        val bu = Bundle()
+//                        bu.putParcelable(WrapTravelDatas::class.java.simpleName, wraps)
+//                        val intent = Intent(this@M3, BrowserUserAct::class.java)
+//                        intent.putExtra(WrapTravelDatas::class.java.simpleName, bu)
+//                        startActivity(intent)
+//                    }
+//            }
     }
 
     fun onTvReturn(v: View) {
@@ -162,6 +172,21 @@ class M3 : AppCompatActivity() {
             val s = "this is test<br> <big>is</big> it <small>right</small>?<p> yes"
 
             setText(HtmlCompat.fromHtml(s, HtmlCompat.FROM_HTML_SEPARATOR_LINE_BREAK_BLOCKQUOTE))
+        }
+    }
+
+    fun onDownloadFacePhoto(v: View) {
+        val storage = FirebaseStorage.getInstance()
+        val imgPath = "/images/promethus@gmail.com/main.jpg"
+        val ImgRef = storage.reference.child(imgPath)
+        val iv = findViewById<ImageView>(R.id.iv_face)
+        val ONEMEGA = (1024 * 1024).toLong()
+        ImgRef.getBytes(ONEMEGA).addOnFailureListener {
+
+        }.addOnSuccessListener { btsAry ->
+            val bmp = BitmapFactory.decodeByteArray(btsAry, 0, btsAry.size)
+            iv.setImageBitmap(bmp)
+
         }
     }
 }

@@ -2,4 +2,7 @@
 <resources>
     <item name="A1" type="id" />
     <item name="A2" type="id" />
+    <item name="SearchUsers" type="id" />
+    <item name="SearchTripsByUser" type="id" />
+    <item name="DownloadFacePhoto" type="id" />
 </resources>

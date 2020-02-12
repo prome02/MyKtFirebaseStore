@@ -8,6 +8,16 @@
     android:layout_height="match_parent"
     android:padding="8dp">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/lyt_first"
@@ -15,7 +25,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/progressBar">
+
 
         <ImageView
             android:id="@+id/iv_photo"
@@ -29,74 +40,47 @@
             app:srcCompat="@drawable/ic_account_box_24px" />
 
         <TextView
-            android:text="test"
             android:id="@+id/txt_user_content"
-            android:textSize="10pt"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:textSize="16dp" />
 
     </LinearLayout>
 
 
-    <fragment
-        android:id="@+id/frag_gen_sel"
-        android:name="com.example.myktfirebasestore.GenSelectFrag"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lyt_first" />
-
-    <!--    <LinearLayout-->
-    <!--        android:id="@+id/lyt_personal"-->
-    <!--        android:layout_width="match_parent"-->
+    <!--    <fragment-->
+    <!--        android:id="@+id/frag_gen_sel"-->
+    <!--        android:name="com.example.myktfirebasestore.GenSelectFrag"-->
+    <!--        android:layout_width="0dp"-->
     <!--        android:layout_height="wrap_content"-->
-    <!--        android:orientation="horizontal"-->
+    <!--        -->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
     <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="@+id/frag_gen_sel">-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/lyt_first" />-->
 
 
-    <!--    </LinearLayout>-->
-
-
-    <!--    <Button-->
-    <!--        android:id="@+id/btnSave"-->
-    <!--        style="@style/sty_button"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="@string/str_user_info_upload"-->
-
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent" />-->
-
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frag_gen_sel">
+        app:layout_constraintTop_toBottomOf="@+id/lyt_first">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/txt_desp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/txt_desp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            android:gravity="top|start" />
 
-                android:gravity="top|left" />
-
-            <ListView
-                android:id="@+id/lvTrips"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </ScrollView>
+        <ListView
+            android:id="@+id/lvTrips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout><!--</LinearLayout>-->
