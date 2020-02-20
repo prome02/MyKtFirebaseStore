@@ -1,19 +1,14 @@
 package com.example.myktfirebasestore
 
 import android.graphics.BitmapFactory
-import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.os.PersistableBundle
 import android.util.Log
+import android.view.View
 import android.widget.*
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
@@ -31,6 +26,7 @@ class BrowserUserAct : AppCompatActivity() {
 
                 val act = mOuter.get()
                 act ?: return
+                act.mFriend ?: return
                 act.mProgressBar.hideProgressBar()
                 when (msg.what) {
                     R.id.SearchUsers -> {
@@ -75,7 +71,8 @@ class BrowserUserAct : AppCompatActivity() {
                             ArrayAdapter<String>(act, android.R.layout.simple_list_item_1, obj)
 
                         act.mProgressBar.showProgressBar()
-                        Thread(DownloadFacePhoto(act.mHlr, act.msUid ?: return, "main.jpg")).start()
+
+                        Thread(DownloadFacePhoto(act.mHlr, act.mFriend!!.id, "main.jpg")).start()
                     }
                     R.id.DownloadFacePhoto -> {
                         if (msg.data != null) {
@@ -90,10 +87,62 @@ class BrowserUserAct : AppCompatActivity() {
                         }
 
                     }
+                    R.id.SearchChattingRoomByUser -> {
+                        when (msg.arg1) {
+                            0 -> {//room didn't exist
+                                //reject to create new room if check rooms number was larger than 15
+                                if (msg.arg2 >= 15) {
+                                    Toast.makeText(
+                                        act,
+                                        R.string.too_many_chatting_rooms,
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                } else {//create a new room
+                                    val friendInfo = act.mFriend
+                                    Thread(CreateNewChattingRoom(this, act.msMyId, friendInfo!!))
+                                }
+                            }
+                            1 -> {
+                                //room is exieted, open it
+                                //TODO: open existed room
+                            }
+                            else -> {
+                                Log.d(
+                                    "BrowserUserAct",
+                                    "unknown error msg id=${msg.what.toString()}"
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
 
+        class CreateNewChattingRoom(val h: Handler, val sMyId: String, val uiFriend: UserInfo) :
+            Runnable {
+            override fun run() {
+                val db = FirebaseFirestore.getInstance()
+                //create a new room
+
+                val ucFriend = UserContact(name = uiFriend.name, id = uiFriend.id, roomValid = true)
+                val ucRef = db.collection("users").document(sMyId)
+                    .collection("contacts").document(uiFriend.id)
+
+                val roomId: String = HelpObject.getCompoundRoomName(sMyId, uiFriend.id)
+                val chattingRoomRef = db.collection("rooms")
+                    .document(roomId)
+                val roomInfo = RoomInfo(name = roomId, isValid = true)
+
+                db.runBatch { bt ->
+                    bt.set(ucRef, ucFriend)
+                    bt.set(chattingRoomRef, roomInfo)
+                }.addOnSuccessListener {
+
+                }.addOnFailureListener {
+
+                }
+            }
+        }
         class DownloadFacePhoto(val h: Handler, val uid: String, val filename: String) : Runnable {
             override fun run() {
                 val storage = FirebaseStorage.getInstance()
@@ -179,24 +228,73 @@ class BrowserUserAct : AppCompatActivity() {
                 val Tag = SearchUsers::class.java.simpleName
             }
         }
+
+        class SearchChattingRoomByUser(val h: Handler, val uid: String, val friendId: String) :
+            Runnable {
+            override fun run() {
+                val db = FirebaseFirestore.getInstance()
+                db.collection("users").document(uid)
+                    .collection("contacts").get()
+                    .addOnFailureListener {
+                        val msg = h.obtainMessage()
+                        msg.what = R.id.SearchChattingRoomByUser
+                        msg.arg1 = 0
+                        h.sendMessage(msg)
+                    }.addOnSuccessListener {
+                        val msg = h.obtainMessage()
+                        msg.arg1 = 0
+                        msg.arg2 = it.documents.count()
+                        msg.what = R.id.SearchChattingRoomByUser
+                        var isUser: Boolean = false
+                        for (i in it.documents) {
+                            val obj = i.toObject<UserInfo>()
+                            if (obj?.id?.compareTo(friendId) == 0) {
+                                isUser = true
+                                break
+                            }
+                        }
+                        if (isUser) {
+                            msg.arg1 = 1
+                            msg.data = Bundle().apply {
+                                putString(SearchChattingRoomByUser::class.java.simpleName, friendId)
+                            }
+                        }
+
+                        h.sendMessage(msg)
+                    }
+            }
+        }
     }
 
     lateinit var mProgressBar: ProgressCtrl
 
     lateinit var mImgRef: StorageReference
-    var msUid: String? = null
+    var mFriend: UserInfo? = null
+    lateinit var msMyId: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.browser_user_info)
 
         mProgressBar = ProgressCtrl(findViewById<ProgressBar>(R.id.progressBar))
-        msUid = intent.getStringExtra(BrowserUserAct::class.java.simpleName)
-        if (msUid != null) {
+//        val ary=intent.getStringArrayListExtra(BrowserUserAct::class.java.simpleName)
+        val obj = intent.getBundleExtra(BrowserUserAct::class.java.simpleName)
+        mFriend = obj?.getParcelable<UserInfo>(BrowserUserAct::class.java.simpleName)
+
+        msMyId = intent.getStringExtra(BrowserUserAct::class.java.simpleName)
+
+        mFriend ?: return
+
 
             mProgressBar.showProgressBar()
-            Thread(SearchUsers(mHlr, msUid ?: return)).start()
-        }
+        Thread(SearchUsers(mHlr, mFriend!!.id)).start()
 
+
+        create_room.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                mFriend ?: return
+                Thread(SearchChattingRoomByUser(mHlr, msMyId, mFriend!!.id)).start()
+            }
+        })
 
     }
 

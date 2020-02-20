@@ -43,8 +43,8 @@
             android:id="@+id/txt_user_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:textSize="16dp" />
+            android:layout_marginStart="4dp"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
@@ -60,27 +60,54 @@
     <!--        app:layout_constraintTop_toBottomOf="@+id/lyt_first" />-->
 
 
-    <LinearLayout
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="8dp"-->
+    <!--        android:layout_marginTop="2dp"-->
+    <!--        android:orientation="vertical"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/lyt_first">-->
+
+    <!--        -->
+    <!--    </LinearLayout>-->
+
+    <TextView
+        android:id="@+id/txt_desp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:gravity="top|start"
+        app:layout_constraintTop_toBottomOf="@+id/lyt_first"
+        tools:layout_editor_absoluteX="8dp" />
+
+    <ListView
+        android:id="@+id/lvTrips"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="2dp"
-        android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lyt_first">
+        app:layout_constraintTop_toBottomOf="@+id/txt_desp" />
 
-        <TextView
-            android:id="@+id/txt_desp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+    <!--    <android.support.design.widget.CoordinatorLayout-->
+    <!--        android:id="@+id/coordinatorLayout2"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        tools:layout_editor_absoluteX="8dp"-->
+    <!--        tools:layout_editor_absoluteY="8dp">-->
 
-            android:gravity="top|start" />
+    <ImageView
+        android:id="@+id/create_room"
+        android:layout_width="26pt"
+        android:layout_height="26pt"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        app:srcCompat="@drawable/ic_message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:contentDescription="" />
 
-        <ListView
-            android:id="@+id/lvTrips"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+    <!--    </android.support.design.widget.CoordinatorLayout>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout><!--</LinearLayout>-->

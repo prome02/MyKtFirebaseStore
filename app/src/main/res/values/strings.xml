@@ -54,4 +54,5 @@
     <string name="userinfo_var_title_language" translatable="false">language</string>
     <string name="userinfo_var_title_country" translatable="false">country</string>
     <string name="userinfo_var_title_description" translatable="false">name</string>
+    <string name="too_many_chatting_rooms" translatable="false">please remove some chatting rooms, because the rooms were meetting the upper bound(15)</string>
 </resources>

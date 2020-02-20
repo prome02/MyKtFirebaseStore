@@ -138,5 +138,9 @@ class HelpObject(val ctx: Context, val titleMsgId: Int, val contentId: Int) : Vi
             }, y, m, d)
                 .show()
         }
+
+        fun getCompoundRoomName(u1: String, u2: String): String {
+            return if (u1.compareTo(u2) < 0) "${u1}|${u2}" else "${u2}|${u1}"
+        }
     }
 }

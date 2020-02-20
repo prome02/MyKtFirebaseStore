@@ -5,4 +5,5 @@
     <item name="SearchUsers" type="id" />
     <item name="SearchTripsByUser" type="id" />
     <item name="DownloadFacePhoto" type="id" />
+    <item name="SearchChattingRoomByUser" type="id" />
 </resources>
