@@ -6,4 +6,5 @@
     <item name="SearchTripsByUser" type="id" />
     <item name="DownloadFacePhoto" type="id" />
     <item name="SearchChattingRoomByUser" type="id" />
+    <item name="CreateNewChattingRoom" type="id" />
 </resources>

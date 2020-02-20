@@ -20,6 +20,7 @@ class BrowserUserAct : AppCompatActivity() {
     val mHlr = MyHandler(this)
 
     companion object {
+        val sIntentTag = "IntentTag"
         class MyHandler(ref: BrowserUserAct) : Handler() {
             var mOuter = WeakReference<BrowserUserAct>(ref)
             override fun handleMessage(msg: Message) {
@@ -99,7 +100,14 @@ class BrowserUserAct : AppCompatActivity() {
                                     ).show()
                                 } else {//create a new room
                                     val friendInfo = act.mFriend
-                                    Thread(CreateNewChattingRoom(this, act.msMyId, friendInfo!!))
+                                    act.mProgressBar.showProgressBar()
+                                    Thread(
+                                        CreateNewChattingRoom(
+                                            this,
+                                            act.msMyId,
+                                            friendInfo!!
+                                        )
+                                    ).start()
                                 }
                             }
                             1 -> {
@@ -111,6 +119,19 @@ class BrowserUserAct : AppCompatActivity() {
                                     "BrowserUserAct",
                                     "unknown error msg id=${msg.what.toString()}"
                                 )
+                            }
+                        }
+                    }
+                    R.id.CreateNewChattingRoom -> {
+                        when (msg.arg1) {
+                            0 -> {
+
+                            }
+                            1 -> {// create new room ok.
+
+                            }
+                            else -> {
+
                             }
                         }
                     }
@@ -137,9 +158,19 @@ class BrowserUserAct : AppCompatActivity() {
                     bt.set(ucRef, ucFriend)
                     bt.set(chattingRoomRef, roomInfo)
                 }.addOnSuccessListener {
+                    val msg = h.obtainMessage().apply {
+                        what = R.id.CreateNewChattingRoom
+                        arg1 = 1
+                    }
+                    h.sendMessage(msg)
 
                 }.addOnFailureListener {
-
+                    val msg = h.obtainMessage().apply {
+                        what = R.id.CreateNewChattingRoom
+                        arg1 = 0
+                    }
+                    h.sendMessage(msg)
+                    it.printStackTrace()
                 }
             }
         }
@@ -277,8 +308,8 @@ class BrowserUserAct : AppCompatActivity() {
 
         mProgressBar = ProgressCtrl(findViewById<ProgressBar>(R.id.progressBar))
 //        val ary=intent.getStringArrayListExtra(BrowserUserAct::class.java.simpleName)
-        val obj = intent.getBundleExtra(BrowserUserAct::class.java.simpleName)
-        mFriend = obj?.getParcelable<UserInfo>(BrowserUserAct::class.java.simpleName)
+        val obj = intent.getBundleExtra(BrowserUserAct.sIntentTag)
+        mFriend = obj?.getParcelable<UserInfo>(BrowserUserAct.sIntentTag)
 
         msMyId = intent.getStringExtra(BrowserUserAct::class.java.simpleName)
 

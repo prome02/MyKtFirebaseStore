@@ -136,16 +136,14 @@ class M3 : AppCompatActivity() {
     fun onSendUserTrip(v: View) {
         val uid = "promethus@gmail.com"
         val intent = Intent(this@M3, BrowserUserAct::class.java)
-        val ary = ArrayList<String>()
-
         //my id
         val myid = "d1881740@urhen.com"
-        ary.add(myid)
-        ary.add(uid)
-        val obj = UserInfo(id = myid, name = "unknown")
+
+        val obj = UserInfo(id = uid, name = "unknown")
         intent.putExtra(BrowserUserAct::class.java.simpleName, myid)
-        intent.putExtra(BrowserUserAct::class.java.simpleName, Bundle().apply {
-            putParcelable(BrowserUserAct::class.java.simpleName, obj)
+
+        intent.putExtra(BrowserUserAct.sIntentTag, Bundle().apply {
+            putParcelable(BrowserUserAct.sIntentTag, obj)
         })
 //        intent.putStringArrayListExtra(BrowserUserAct::class.java.simpleName, ary)
 //        intent.putExtra(BrowserUserAct::class.java.simpleName, uid)
