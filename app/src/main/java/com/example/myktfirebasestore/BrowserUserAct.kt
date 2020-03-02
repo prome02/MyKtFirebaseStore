@@ -1,5 +1,6 @@
 package com.example.myktfirebasestore
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -77,42 +78,31 @@ class BrowserUserAct : AppCompatActivity() {
                     }
                     R.id.DownloadFacePhoto -> {
                         if (msg.data != null) {
-                            val btsAry =
-                                msg.data.getByteArray(DownloadFacePhoto::class.java.simpleName)
-                                    ?: return
 
-                            val bmp = BitmapFactory.decodeByteArray(btsAry, 0, btsAry.size)
-                            act.findViewById<ImageView>(R.id.iv_photo).apply {
-                                setImageBitmap(bmp)
+                            msg.data.getByteArray(DownloadFacePhoto::class.java.simpleName)?.run {
+                                val bmp = BitmapFactory.decodeByteArray(this, 0, size)
+                                act.findViewById<ImageView>(R.id.iv_photo).apply {
+                                    setImageBitmap(bmp)
+                                }
                             }
                         }
 
                     }
                     R.id.SearchChattingRoomByUser -> {
                         when (msg.arg1) {
-                            0 -> {//room didn't exist
-                                //reject to create new room if check rooms number was larger than 15
+                            0 -> act.createNewChattingRoom()
+                            1 -> {
+                                //room is existed, open it
+                                act.openChattingRoom()
+                            }
+                            2 -> {
                                 if (msg.arg2 >= 15) {
                                     Toast.makeText(
                                         act,
                                         R.string.too_many_chatting_rooms,
                                         Toast.LENGTH_LONG
                                     ).show()
-                                } else {//create a new room
-                                    val friendInfo = act.mFriend
-                                    act.mProgressBar.showProgressBar()
-                                    Thread(
-                                        CreateNewChattingRoom(
-                                            this,
-                                            act.msMyId,
-                                            friendInfo!!
-                                        )
-                                    ).start()
-                                }
-                            }
-                            1 -> {
-                                //room is exieted, open it
-                                //TODO: open existed room
+                                } else act.createNewChattingRoom()
                             }
                             else -> {
                                 Log.d(
@@ -125,13 +115,15 @@ class BrowserUserAct : AppCompatActivity() {
                     R.id.CreateNewChattingRoom -> {
                         when (msg.arg1) {
                             0 -> {
-
+                                Toast.makeText(act, R.string.str_unknown_er, Toast.LENGTH_LONG)
+                                    .show()
                             }
                             1 -> {// create new room ok.
-
+                                act.openChattingRoom()
                             }
                             else -> {
-
+                                Toast.makeText(act, R.string.str_unknown_er, Toast.LENGTH_LONG)
+                                    .show()
                             }
                         }
                     }
@@ -145,24 +137,29 @@ class BrowserUserAct : AppCompatActivity() {
                 val db = FirebaseFirestore.getInstance()
                 //create a new room
 
-                val ucFriend = UserContact(name = uiFriend.name, id = uiFriend.id, roomValid = true)
-                val ucRef = db.collection("users").document(sMyId)
-                    .collection("contacts").document(uiFriend.id)
+//                val ucFriend = UserContact(name = uiFriend.name, id = uiFriend.id, roomValid = true)
+//                val ucRef = db.collection("users").document(sMyId)
+//                    .collection("contacts").document(uiFriend.id)
 
                 val roomId: String = HelpObject.getCompoundRoomName(sMyId, uiFriend.id)
                 val chattingRoomRef = db.collection("rooms")
                     .document(roomId)
-                val roomInfo = RoomInfo(name = roomId, isValid = true)
+                val roomInfo = RoomInfo(
+                    name = roomId,
+                    isValid = true,
+                    users = arrayListOf<String>(sMyId, uiFriend.id)
+                )
 
                 db.runBatch { bt ->
-                    bt.set(ucRef, ucFriend)
+                    //                    bt.set(ucRef, ucFriend)
                     bt.set(chattingRoomRef, roomInfo)
                 }.addOnSuccessListener {
-                    val msg = h.obtainMessage().apply {
+                    h.obtainMessage().apply {
                         what = R.id.CreateNewChattingRoom
                         arg1 = 1
+                        h.sendMessage(this)
                     }
-                    h.sendMessage(msg)
+
 
                 }.addOnFailureListener {
                     val msg = h.obtainMessage().apply {
@@ -207,9 +204,9 @@ class BrowserUserAct : AppCompatActivity() {
 
                         val ary = ArrayList<String>()
                         for (i in it.documents) {
-                            val obj = i.toObject<TravelData>()
-                            obj ?: continue
-                            ary.add(obj.makeContentTitle())
+                            i.toObject<TravelData>()?.apply {
+                                ary.add(makeContentTitle())
+                            }
                         }
 
                         val msg = hlr.obtainMessage()
@@ -264,35 +261,66 @@ class BrowserUserAct : AppCompatActivity() {
             Runnable {
             override fun run() {
                 val db = FirebaseFirestore.getInstance()
-                db.collection("users").document(uid)
-                    .collection("contacts").get()
-                    .addOnFailureListener {
-                        val msg = h.obtainMessage()
-                        msg.what = R.id.SearchChattingRoomByUser
-                        msg.arg1 = 0
-                        h.sendMessage(msg)
-                    }.addOnSuccessListener {
-                        val msg = h.obtainMessage()
-                        msg.arg1 = 0
-                        msg.arg2 = it.documents.count()
-                        msg.what = R.id.SearchChattingRoomByUser
-                        var isUser: Boolean = false
+
+//                val sRoomName=HelpObject.getCompoundRoomName(uid,friendId)
+                db.collection("rooms").whereArrayContains("users", uid).get()
+                    .addOnSuccessListener {
+                        val idName = HelpObject.getCompoundRoomName(uid, friendId)
+                        var isFound = false
                         for (i in it.documents) {
-                            val obj = i.toObject<UserInfo>()
-                            if (obj?.id?.compareTo(friendId) == 0) {
-                                isUser = true
+                            val roomInfo = i.toObject<RoomInfo>()
+                            if (roomInfo?.name?.compareTo(idName) == 0) {
+                                isFound = true
                                 break
                             }
                         }
-                        if (isUser) {
-                            msg.arg1 = 1
-                            msg.data = Bundle().apply {
-                                putString(SearchChattingRoomByUser::class.java.simpleName, friendId)
+                        h.obtainMessage().apply {
+                            what = R.id.SearchChattingRoomByUser
+                            if (isFound) {
+                                arg1 = 1
+                            } else {
+                                arg1 = 2
+                                arg2 = it.documents.count()
                             }
+                            h.sendMessage(this)
                         }
-
-                        h.sendMessage(msg)
+                    }.addOnFailureListener {
+                        h.obtainMessage().apply {
+                            what = R.id.SearchChattingRoomByUser
+                            arg1 = 0
+                            h.sendMessage(this)
+                        }
                     }
+
+//                db.collection("users").document(uid)
+//                    .collection("contacts").get()
+//                    .addOnFailureListener {
+//                        val msg = h.obtainMessage()
+//                        msg.what = R.id.SearchChattingRoomByUser
+//                        msg.arg1 = 0
+//                        h.sendMessage(msg)
+//                    }.addOnSuccessListener {
+//                        val msg = h.obtainMessage()
+//                        msg.arg1 = 0
+//                        msg.arg2 = it.documents.count()
+//                        msg.what = R.id.SearchChattingRoomByUser
+//                        var isUser: Boolean = false
+//                        for (i in it.documents) {
+//                            val obj = i.toObject<UserInfo>()
+//                            if (obj?.id?.compareTo(friendId) == 0) {
+//                                isUser = true
+//                                break
+//                            }
+//                        }
+//                        if (isUser) {
+//                            msg.arg1 = 1
+//                            msg.data = Bundle().apply {
+//                                putString(SearchChattingRoomByUser::class.java.simpleName, friendId)
+//                            }
+//                        }
+//
+//                        h.sendMessage(msg)
+//                    }
             }
         }
     }
@@ -307,23 +335,36 @@ class BrowserUserAct : AppCompatActivity() {
         setContentView(R.layout.browser_user_info)
 
         mProgressBar = ProgressCtrl(findViewById<ProgressBar>(R.id.progressBar))
-//        val ary=intent.getStringArrayListExtra(BrowserUserAct::class.java.simpleName)
-        val obj = intent.getBundleExtra(BrowserUserAct.sIntentTag)
-        mFriend = obj?.getParcelable<UserInfo>(BrowserUserAct.sIntentTag)
 
-        msMyId = intent.getStringExtra(BrowserUserAct::class.java.simpleName)
+        intent.getStringExtra(BrowserUserAct::class.java.simpleName)?.apply {
+            msMyId = this
+        }
 
-        mFriend ?: return
+        intent.getBundleExtra(BrowserUserAct.sIntentTag)?.let {
+
+            mFriend = it.getParcelable<UserInfo>(BrowserUserAct.sIntentTag)
+            mFriend?.apply {
+                mProgressBar.showProgressBar()
+                Thread(SearchUsers(mHlr, id)).start()
+            }
+        }
 
 
-            mProgressBar.showProgressBar()
-        Thread(SearchUsers(mHlr, mFriend!!.id)).start()
+
+
+
+
+
+
+
 
 
         create_room.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
-                mFriend ?: return
-                Thread(SearchChattingRoomByUser(mHlr, msMyId, mFriend!!.id)).start()
+                mFriend?.run {
+                    Thread(SearchChattingRoomByUser(mHlr, msMyId, id)).start()
+                }
+
             }
         })
 
@@ -338,6 +379,28 @@ class BrowserUserAct : AppCompatActivity() {
         }
     }
 
+    fun openChattingRoom() {
+        mFriend?.let {
+            val intent = Intent(this, ChattingActivity::class.java)
+            val names = arrayListOf<String>(msMyId, it.id)
+            intent.putStringArrayListExtra(ChattingActivity::class.java.simpleName, names)
+            startActivity(intent)
+        }
+
+    }
+
+    fun createNewChattingRoom() {
+        //create a new room
+        val friendInfo = mFriend
+        mProgressBar.showProgressBar()
+        Thread(
+            CreateNewChattingRoom(
+                mHlr,
+                msMyId,
+                friendInfo!!
+            )
+        ).start()
+    }
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
 

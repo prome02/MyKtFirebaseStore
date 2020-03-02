@@ -93,12 +93,46 @@
 
     <TextView
         android:id="@+id/tv_drawable"
-        app:drawableLeftCompat="@drawable/ic_account_box_24px"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView \n test\n test\n test\n test\n test\n test"
+        app:drawableLeftCompat="@drawable/ic_account_box_24px"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button32" />
+
+    <Button
+        android:id="@+id/button33"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="onChattingAct"
+        android:text="d18"
+        app:layout_constraintStart_toEndOf="@+id/tv_drawable"
+        app:layout_constraintTop_toBottomOf="@+id/button32" />
+
+    <Button
+        android:id="@+id/button34"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="onChattingAct_pro"
+        android:text="pro chat"
+        app:layout_constraintStart_toEndOf="@+id/button33"
+        app:layout_constraintTop_toBottomOf="@+id/button32" />
+
+    <Button
+        android:id="@+id/button35"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="onTest_doSync"
+        android:text="doSync"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@+id/tv_drawable"
+        app:layout_constraintTop_toBottomOf="@+id/button33" />
 </androidx.constraintlayout.widget.ConstraintLayout>

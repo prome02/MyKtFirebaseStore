@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.text.Html
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -27,6 +28,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.parcel.Parcelize
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import java.io.ByteArrayOutputStream
 
 @Parcelize
@@ -197,6 +200,36 @@ class M3 : AppCompatActivity() {
             val bmp = BitmapFactory.decodeByteArray(btsAry, 0, btsAry.size)
             iv.setImageBitmap(bmp)
 
+        }
+    }
+
+    fun onChattingAct(v: View) {
+        val intent = Intent(this@M3, ChattingActivity::class.java)
+//        val names=arrayListOf<String>("promethus@gmail.com", "d1881740@urhen.com")
+        val names = arrayListOf<String>("d1881740@urhen.com", "promethus@gmail.com")
+        intent.putStringArrayListExtra(ChattingActivity::class.java.simpleName, names)
+        startActivity(intent)
+    }
+
+    fun onChattingAct_pro(v: View) {
+        val intent = Intent(this@M3, ChattingActivity::class.java)
+        val names = arrayListOf<String>("promethus@gmail.com", "d1881740@urhen.com")
+
+        intent.putStringArrayListExtra(ChattingActivity::class.java.simpleName, names)
+        startActivity(intent)
+    }
+
+    fun onTest_doSync(v: View) {
+        doAsync {
+            var i = 1
+            Thread.sleep(200)
+            uiThread { Log.d("TAG", "i=$i") }
+            i = i + 1
+            Thread.sleep(400)
+            uiThread { Log.d("TAG", "i=$i") }
+            i = i + 1
+
+            uiThread { Log.d("TAG", "i=$i") }
         }
     }
 }

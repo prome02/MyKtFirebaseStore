@@ -7,4 +7,6 @@
     <item name="DownloadFacePhoto" type="id" />
     <item name="SearchChattingRoomByUser" type="id" />
     <item name="CreateNewChattingRoom" type="id" />
+    <item name="GetMessages" type="id" />
+    <item name="SenMessage" type="id" />
 </resources>
