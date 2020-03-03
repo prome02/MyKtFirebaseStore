@@ -21,7 +21,6 @@ import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.chatting_activity.*
-import org.jetbrains.anko.doAsync
 import java.lang.ref.WeakReference
 import java.util.*
 import kotlin.collections.ArrayList
